@@ -2,5 +2,4 @@ language: node_js
 node_js:
     - "7"
 script:
-    - npm run prod
-    - npm run deploy-to-gh-pages
+    - npm run prod && npm run deploy-to-gh-pages
