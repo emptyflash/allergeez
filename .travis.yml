@@ -2,8 +2,13 @@ language: node_js
 node_js:
     - "node"
 
+cache:
+  directories:
+    - node_modules
+
 script:
-  - ng build --prod --output-path dist --base-href allergeez
+  - ng build --prod --output-path dist --base-href "/allergeez/"
+  - echo "emptyfla.sh" > dist/CNAME;
 
 after_success:
-  - ngh --message="Deploying!"
+  - ngh --message="Deploying!" --no-silent
