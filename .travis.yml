@@ -7,7 +7,5 @@ cache:
     - node_modules
 
 script:
-  - ng build --prod --base-href=/allergeez/
+  - npm run prod
 
-after_success:
-  - ngh
