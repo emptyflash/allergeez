@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+    - "node"
+
+script:
+  - ng build --prod --output-path dist --base-href allergeez
+
+after_success:
+  - ngh --message="Deploying!"
