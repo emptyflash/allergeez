@@ -8,6 +8,7 @@ cache:
 
 script:
   - ng build --prod --base-href https://emptyflash.github.io/allergeez/
+  - cp dist/index.html dist/404.html
 
 after_success:
   - ngh
