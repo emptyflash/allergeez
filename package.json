@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "allergeez",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,9 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "prod": "ng build --prod --base-href 'https://emptyflash.github.io/allergeez/'",
-    "deploy-to-gh-pages": "angular-cli-ghpages"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
