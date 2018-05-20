@@ -5,13 +5,72 @@
 }
 
 .charts {
-  height: 250px;
+  //height: 250px;
   padding: 50px;
+
+  h2 {
+    text-align: center;
+  }
+
+  /* Portrait */
+  @media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+    h2 {
+      text-align: center;
+    }
+  }
+
+  .options {
+    display: flex;
+    justify-content: space-between;
+
+    /* Portrait */
+    @media only screen
+    and (min-device-width: 320px)
+    and (max-device-width: 568px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Portrait */
+    @media only screen
+    and (min-device-width: 375px)
+    and (max-device-width: 667px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 
   .column {
     float: left;
     text-align: center;
-    width: 33.33%;
+    width: 30%;
+
+    img {
+      margin: 0 auto;
+      width: auto;
+    }
+
+    /* Portrait */
+    @media only screen
+    and (min-device-width: 375px)
+    and (max-device-width: 667px)
+    and (-webkit-min-device-pixel-ratio: 2)
+    and (orientation: portrait) {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-content: center;
+      margin-bottom: 31pt;
+      width: 100%;
+    }
 
     img {
       height: 54px;
