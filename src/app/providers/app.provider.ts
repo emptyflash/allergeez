@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as _ from 'lodash';
-import {HttpClient} from '@angular/common/http';
 
 import {data} from './mock-data';
 
