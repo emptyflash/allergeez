@@ -29,6 +29,7 @@ export class NotificationComponent {
         ).then(({ ok, error }) => {
             this.subscribed = ok;
             this.error = error;
+            this.hasUserId = ok;
         });
     }
 
