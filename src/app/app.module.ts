@@ -2,11 +2,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { ChartsComponent } from './components/Charts.component';
-import { CheckboxesComponent } from './components/Checkboxes.component';
-import { HowDoYouFeelComponent } from './components/HowDoYouFeel.component';
-import { NotificationsSetupComponent } from './components/NotificationsSetup.component';
-import { PushNotificationsProvider } from './providers/push-notifications.provider';
+import { ChartsComponent } from './components/charts/charts.component';
+import { CheckboxesComponent } from './components/checkboxes/checkboxes.component';
+import { FeelingComponent } from './components/feeling/feeling.component';
+import { NotificationComponent } from './components/notification/notification.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -15,16 +14,14 @@ import { environment } from '../environments/environment';
     AppComponent,
     ChartsComponent,
     CheckboxesComponent,
-    HowDoYouFeelComponent,
-    NotificationsSetupComponent,
+    FeelingComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [
-      PushNotificationsProvider,
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

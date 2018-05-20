@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PushNotificationsProvider {
     keys = {
       publicKey: 'BDAE-eTErxN96tRKmkxxj60ebfvM7-PI1cgwNeCwgFP6oKRTOwDzvWmZ-xwdkc7dNHBbKHksQUb6-eS8bvNlMAk',
