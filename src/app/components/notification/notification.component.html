@@ -6,6 +6,6 @@
         Congratulations! You'll be notified.
     </div>
     <button (click)="setupNotifications()">Set Up Notifications</button>
-    <button class="test-btn" (click)="test()">Test</button>
+    <button class="test-btn" (click)="test()" *ngIf="hasUserId">Test</button>
     <div class="message">Notifications will be sent if your selected allergens are at or above the threshold.</div>
 </div>
