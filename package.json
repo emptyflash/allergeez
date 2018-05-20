@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prod": "ng build --prod --output-path=\"docs\""
+    "prod": "ng build --prod --aot=false --build-optimizer=false --output-path=\"docs\""
   },
   "private": true,
   "dependencies": {

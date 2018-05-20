@@ -1,3 +1,4 @@
 docs
 backend/.ipynb_checkpoints/
+backend/__pycache__/
 dist
