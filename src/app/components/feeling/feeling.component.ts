@@ -10,7 +10,7 @@ import { AppProvider, Emotion } from '../../providers/app.provider';
 export class FeelingComponent implements OnInit {
   Emotion = Emotion; // for templatex
 
-  constructor(private appService: AppProvider) { }
+  constructor(public appService: AppProvider) { }
 
   ngOnInit() {
   }
