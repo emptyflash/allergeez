@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AppProvider, Level } from '../../providers/app.provider';
+
 
 @Component({
   selector: 'charts',
@@ -6,8 +8,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./charts.component.less']
 })
 export class ChartsComponent implements OnInit {
+  treeLevel: Level;
+  weedsLevel: Level;
+  moldLevel: Level;
 
-  constructor() { }
+  constructor(private appService: AppProvider) {
+    this.treeLevel = appService.getTodaysTreeLevel();
+    this.weedsLevel = appService.getTodaysWeedsLevel();
+    this.moldLevel = appService.getTodaysMoldLevel();
+  }
 
   ngOnInit() {
   }

@@ -5,6 +5,18 @@
 }
 
 .charts {
-  height: 300px;
+  height: 150px;
   padding: 30px;
+
+  .column {
+    float: left;
+    text-align: center;
+    width: 33.33%;
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }

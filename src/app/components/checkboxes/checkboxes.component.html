@@ -1,10 +1,5 @@
 <div class="checkboxes">
-    <pre>
-        Trees: {{appService.selectedTrees.toString()}}
-        Weeds: {{appService.selectedWeeds.toString()}}
-        Molds: {{appService.selectedMolds.toString()}}
-    </pre>
-
+    <h2>Filter By Allergen</h2>
     <div class="row">
         <div class="column">
             <h3>Trees</h3>
@@ -21,7 +16,7 @@
         </div>
 
         <div class="column">
-            <h3>Weeds</h3>
+            <h3>Weeds & Grass</h3>
             <div *ngFor="let weed of appService.weeds">
                 <label><input type="checkbox"
                               name="checkbox"
