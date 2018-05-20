@@ -3,18 +3,8 @@ import { PushNotificationsProvider } from '../../providers/push-notifications.pr
 
 @Component({
   selector: 'notification',
-  styleUrls: ['./notification.component.less'],
-  template: `
-    <div class="notification">
-        <div *ngIf="!subscribed && attemptedSubscription">
-          {{ error }}
-        </div>
-        <div *ngIf="subscribed && attemptedSubscription">
-            Congratulations! You'll be notified.
-        </div>
-        <button (click)="setupNotifications()">Set Up Notifications</button>
-    </div>
-  `,
+  templateUrl: './notification.component.html',
+  styleUrls: ['./notification.component.less']
 })
 export class NotificationComponent {
     subscribed = false;

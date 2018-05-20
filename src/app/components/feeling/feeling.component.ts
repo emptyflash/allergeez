@@ -8,7 +8,7 @@ import { AppProvider, Emotion } from '../../providers/app.provider';
   styleUrls: ['./feeling.component.less']
 })
 export class FeelingComponent implements OnInit {
-  Emotion = Emotion; // for template
+  Emotion = Emotion; // for templatex
 
   constructor(private appService: AppProvider) { }
 
