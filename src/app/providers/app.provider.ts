@@ -64,11 +64,15 @@ class AppProvider {
           .subscribe((response:IRecord[]) => {
             console.log('summary', response);
             const getSum = (type:string) => {
-              return this.sums.trees = this.data
-                .filter(a => this.getDate(a) === this.latestDate)
-                .filter(a => a.allergen_type === type)
-                .map(a => a.count)
-                .reduce((acc, val) => acc + val);
+              if (this.data) {
+                return this.data
+                  .filter(a => this.getDate(a) === this.latestDate)
+                  .filter(a => a.allergen_type === type)
+                  .map(a => a.count)
+                  .reduce((acc, val) => acc + val);
+              } else {
+                return 0;
+              }
             };
 
             if (response) {
@@ -89,7 +93,7 @@ class AppProvider {
     return new Promise((resolve) => {
       this.http.get('https://allergeez.me/api/fivedays')
         .subscribe((response:IRecord[]) => {
-          console.log('fivedays', response);
+          console.log('fivedays', response, Array.isArray(response));
           this.data = Array.isArray(response) ? response : data;
           const unique = Array.from(new Set(this.data.map(this.getDate)));
           this.latestDate = Math.max(...unique);
@@ -97,7 +101,11 @@ class AppProvider {
           resolve(true);
         }, (error) => {
           console.error(`Couldn't load data for 5 days :(`);
-          resolve(false);
+          this.data = data;
+          const unique = Array.from(new Set(this.data.map(this.getDate)));
+          this.latestDate = Math.max(...unique);
+          this.getChartData();
+          resolve(true);
         });
     });
   }
