@@ -11,6 +11,8 @@ import { CheckboxesComponent } from './components/checkboxes/checkboxes.componen
 import { FeelingComponent } from './components/feeling/feeling.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { environment } from '../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
     NgxChartsModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],

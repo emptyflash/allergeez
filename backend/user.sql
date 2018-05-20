@@ -1,6 +1,8 @@
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) PRIMARY KEY AUTO_INCREMENT,
   `endpoint` varchar(255) DEFAULT NULL,
+  `auth` varchar(255) DEFAULT NULL,
+  `p256dh` varchar(255) DEFAULT NULL,
   `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='HACKATHON';
 

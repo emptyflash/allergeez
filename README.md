@@ -20,9 +20,13 @@ python MakeDB.py
 ```
 python Scrapper-Scrapper-populate.py
 ```
-* to run every 30 min, pushed any update to DB
+* to run every 30 min, pushed any update to DB, determines when to send notifications 
 ```
 python Scrapper-update.py
+```
+* determines what notifications to send to which user:
+```
+python User-Notifications.py
 ```
 * visualize for one pollenkind
 ```

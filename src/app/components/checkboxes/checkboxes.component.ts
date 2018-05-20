@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { AppProvider } from '../../providers/app.provider';
 
@@ -7,10 +7,18 @@ import { AppProvider } from '../../providers/app.provider';
   templateUrl: './checkboxes.component.html',
   styleUrls: ['./checkboxes.component.less']
 })
-export class CheckboxesComponent implements OnInit {
-  constructor(private appService: AppProvider) { }
+export class CheckboxesComponent {
+  threshold = 'low';
 
-  ngOnInit() {
+  constructor(
+      public appService: AppProvider
+  ) {}
+
+  getAllergens() {
+      return [
+        ...this.appService.selectedMolds,
+        ...this.appService.selectedTrees,
+        ...this.appService.selectedWeeds,
+      ];
   }
-
 }

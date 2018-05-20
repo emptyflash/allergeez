@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PushNotificationsProvider } from '../../providers/push-notifications.provider';
 
 @Component({
@@ -6,15 +6,30 @@ import { PushNotificationsProvider } from '../../providers/push-notifications.pr
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.less']
 })
-export class NotificationComponent implements OnInit {
+export class NotificationComponent {
+    subscribed = false;
+    error = '';
+    attemptedSubscription = false;
+    @Input()
+    allergens = []
+    @Input()
+    threshold = '';
 
-  constructor(private pushNotifications: PushNotificationsProvider) {}
+    constructor(
+        private pushNotifications: PushNotificationsProvider,
+    ) {}
 
-  setupNotifications() {
-    this.pushNotifications.subscribe();
-  }
+    setupNotifications() {
+        this.attemptedSubscription = true;
 
-  ngOnInit() {
-  }
+        console.log(this.allergens, this.threshold);
 
+        this.pushNotifications.subscribe(
+            this.allergens,
+            this.threshold,
+        ).then(({ ok, error }) => {
+            this.subscribed = ok;
+            this.error = error;
+        });
+    }
 }
