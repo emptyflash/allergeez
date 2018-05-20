@@ -26,7 +26,7 @@ export class PushNotificationsProvider {
             this.swPush.requestSubscription({
                 serverPublicKey: this.keys.publicKey,
             }).then(({ endpoint }) => {
-                  this.http.post(`http://b2238bdc.ngrok.io/notifications`, {
+                  this.http.post(`https://b2238bdc.ngrok.io/notifications`, {
                       endpoint,
                       allergens,
                       threshold,
