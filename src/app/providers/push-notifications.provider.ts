@@ -25,11 +25,13 @@ export class PushNotificationsProvider {
         return new Promise((resolve, reject) => {
             this.swPush.requestSubscription({
                 serverPublicKey: this.keys.publicKey,
-            }).then(({ endpoint }) => {
+            }).then((subscription) => {
                   this.http.post(`https://b2238bdc.ngrok.io/notifications`, {
-                      endpoint,
+                      endpoint: subscription.endpoint,
                       allergens,
                       threshold,
+                      auth: btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('auth')))),
+                      p256dh: btoa(String.fromCharCode.apply(null, new Uint8Array(subscription.getKey('p256dh')))),
                   }).subscribe((response: ISubscriptionResponse) => {
                       resolve(response);
                   }, (error) => {
