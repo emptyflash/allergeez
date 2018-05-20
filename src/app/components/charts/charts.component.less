@@ -5,6 +5,27 @@
 }
 
 .charts {
-  height: 300px;
+  height: 420px;
   padding: 30px;
+
+  .column {
+    float: left;
+    text-align: center;
+    width: 33.33%;
+
+    .ngx-charts-outer {
+      margin-left: 20px;
+    }
+
+    .subtitle {
+      display: inline-block;
+      font-size: 12px;
+    }
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }

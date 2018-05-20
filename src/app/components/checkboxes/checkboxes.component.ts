@@ -16,9 +16,9 @@ export class CheckboxesComponent {
 
   getAllergens() {
       return [
-        ...this.appService.selectedMolds,
-        ...this.appService.selectedTrees,
-        ...this.appService.selectedWeeds,
+        ...this.appService.selectedMolds.map(a => a.toLowerCase()),
+        ...this.appService.selectedTrees.map(a => a.toLowerCase()),
+        ...this.appService.selectedWeeds.map(a => a.toLowerCase()),
       ];
   }
 }

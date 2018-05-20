@@ -1,0 +1,11 @@
+<div class="notification">
+    <div *ngIf="!subscribed && attemptedSubscription">
+        {{ error }}
+    </div>
+    <div *ngIf="subscribed && attemptedSubscription">
+        Congratulations! You'll be notified.
+    </div>
+    <button (click)="setupNotifications()">Set Up Notifications</button>
+    <button (click)="test()">Test</button>
+    <div class="message">Notifications will be sent if your selected allergens are at or above the threshold.</div>
+</div>

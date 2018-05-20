@@ -3,12 +3,20 @@
 Houston Hackathon 2018
 
 
-Service Worker Demo: https://blog.angular-university.io/angular-push-notifications/
-`src` - Angular frontend (generated with angular-cli)
+### Frontend
 
-    npm install
-    ng serve
-    // go to localhost:4200
+`src` - Angular frontend (generated with [angular-cli](https://github.com/angular/angular-cli))
+
+*  push notifications:
+    Followed the following tutorial to get service worker and push notifications setup. Also a good read on how push notifications work.
+    https://blog.angular-university.io/angular-push-notifications/
+
+* Run site
+```
+npm install
+ng serve
+```
+ Then you can go to localhost:4200
 
 
 ### Backend

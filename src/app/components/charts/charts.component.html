@@ -1,1 +1,52 @@
-<div class="charts">Charts here...</div>
+<div class="charts">
+    <h2>Today's Forecast</h2>
+
+    <div class="options">
+        <!-- tree -->
+        <div class="column">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAU6SURBVGhD7VhraBxVFI79oaj4/lMRUYugv0REMEnTtEk2uzN3ViuY+Bb6R23aJqlN2iTtJpukec3sJFIVfwjSVO2DtDG2qbHpw2QeDRWqIKb+0T8tiIhaEIvP6PWc2TvL7M7d7c5kazcwH3yE3HvmnO/MPffcO1sSIECAAL4Qp/Flqim8kNDFDxMGMRVD3J/QiMSmlwaG5+quT+hkGhKgLurkXUpLrmGmxYcRLXIniOwCsYcUg5xzJeCgaojN7LHiAiTwmKKTn3mieQTbi7gyVuLa4/cxN1cXu6aE62AFLvAE50N49pJiSCHm7v+FbIqPqrq4HYTE5FmpOVOcZ+ridwlDFKEh9MDfFtmMPMBCXTlA4BgE/scWAWXyb0pQgQir9IeikXUsZOExbAiluYQrmkjjn4TojslqOnAqwrXJl4ou/jY4E7mXhS4sYHP28oMS2nG4im58r4yu311qccuBCpedzX5IMjZZQ/tO5E4W/Day0IXD8Jx0Fzg/nBkM2XpwtSW+Abh5fwXdOl5Jd54Iu+xsNu1bmUq4eV9FdludvMbCFwboEOuWF2zglGAl0DBaSnuOZxfvZM+xWtp6qJJuer88+QL2lNE+dykuwOZ/Hm8ITMbikDCkNbn2RddUjSWmZaySO5+Lsi7SLWOrrOc3H1jFtYEu9vnwXPh+Jsc/wNk7budJqjr5c2hWpNvGV0O957camZShQWyAFcFVHZwRuDbwIr+Jn43ewCT5A5TUBM95PkRh2cQ5ifsKVwVLjjdvURfamCR/gDa4jev4MsQ33TCa7GLYwQY+zZ5Q97GQVZr4DG/ewdkRQ1rBpHmDdZM1xK85TnMT6h83tJ3MBmjNQ3mszmWpi+dfn1l7K5PnDbL5xE1QpyqszlfgaB66yY/cIBwOzQpWi8VktsJe4tl4JV6PmDR/GDSk25L3In6AbOw/GWGrUo7XD66NF8KLPMok+QOetOkO0wPkIu4BLy06l2+ojHEmyR9gr7xhO8PDD9sm3q2cQQpB9Im+sx2wkOSrTJI3qFr4bkhiDJz8ajuLHa1O1j1saHusUGxhh2TnxzWuOSirM/H5+muZtPwBp+rtkMT3mQ57p2utYE17V6aNL4rQ6bqmQtbhuH53Gd6gf4fxv3EOyvoX4JvYeJg0b0h+7PCDNu5N3pVicG3n2jCCAOtqjwdf60H+CuJVB8sJ/SHbJtI7nGqSPUySP4CII06HTnZOVi/YgfEC2M3ZL/iNYp/cth1cQl127R9VWfMbobPtOFLF3eyKKYSZLO/A5cx06CS+6U0QHEW0T6xxzeMYzuGBiGWDF8VMG5uDcObwxlPUyVtMlncoJnkYkvmL65gRSwc/lrDc0ubgfzw7MJGdx3Pco/IktN1RJssfoDyeAlE/8ZznIpYVfms0flCghqCTJibJPxLTtTcmNFKpGuIIN0gW4u1Xhqs+b85F+E6HvfEDbw7GL+w6I9zM5CweidPkHnCaOk9SNMkCvLFvXeN5Enx+IWvRR9TT0QfBz3zG/JdX5CciRSNr4e1dtAPhLx7Al/GgUnWhBj64noP58w4hLsLeOwcbPyqb4jOKLjzEXFuwfgDXSHlCl55VzGhZwT53eRj47Mk7koLJS/jDBBtOAfcVNAHuJzKOAwVmWvzAVZJ1ciktiZOwb6akV5jJ0kH8bWlFd5dIe4dE2t0p0O0vCrStPnQLm146QNEd9QJ1MkjkaiJIpNgQryfLMxPBMTa9dND+dLg/M5GOOrGPTRc/4vH4so66SDMIP8tlndCINsw8QIAAAbygpOQ/9BI/8jKgrzQAAAAASUVORK5CYII=">
+            <div>Tree Pollen</div>
+            <level [level]="treeLevel"></level>
+            <ngx-charts-line-chart
+                    [view]="[300, 300]"
+                    [scheme]="colorScheme"
+                    [results]="appService.dataForChart.trees"
+                    [yAxis]="true"
+                    [showXAxisLabel]="false"
+                    [showYAxisLabel]="true"
+                    [autoScale]="true">
+            </ngx-charts-line-chart>
+            <div class="subtitle">Pollen per cubic meter (last 5 days)</div>
+        </div>
+
+        <!-- weed -->
+        <div class="column">
+            <img src="data:image/png;base64,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">
+            <div>Weed Pollen</div>
+            <level [level]="weedsLevel"></level>
+            <ngx-charts-line-chart
+                    [view]="[300, 300]"
+                    [scheme]="colorScheme"
+                    [results]="appService.dataForChart.weeds"
+                    [yAxis]="true"
+                    [autoScale]="true">
+            </ngx-charts-line-chart>
+            <div class="subtitle">Pollen per cubic meter (last 5 days)</div>
+        </div>
+
+        <!-- mold -->
+        <div class="column">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAToSURBVFhH3VZdTBxVGF3ji74YY0yMPvikafTF0N1ZStrQlDbswu7OzmrBUtq00F+pFGo1wO5sUdtSQB9aEiqwf/yIiS8KGi2FhYppbalY0z4QGluBpolVKC2zO7ta6Fy/b3oXRG8JtDNgepKTDnfvOd/pne/euYZHEiV244sewZgjOs0NXpf5glcwD4uCadzjNN1B4jOO4W+iwNXhXNRQuT54j096AQqXi4L5N9HFyYc3rJRq8tMU324LCe3JIE2FdvJpsUMlPuMY/laTt0ap2LByAjWodbs4L3pR24eHaEt+WXSZTrqdpnj15tRYoMBKPtvHPxBR+1Fuagy9wLOj1JH0Ei2zcOxbv+JJeD1VHsEsH8tbM4Urwyr6IEQv9PTAqnp4cyXWomXnB7XHXKahqpxV0ea9NmYRLYjelVDD7eSGRd60jJafGyUu82uw/GM1+WsnWaZ6EGu5BZNUKiw30hhs4P/C4+QidTvTFZaRnvxkV7oCLSXdty/LV69+Anbatdrt6+6yDBaDx6G2R+BGMAuNNQMIV1W5cZXMEi4mj0AGj2CqpLHuodxufBaSy3h+sUSLyaZCG4Es0fL1K56h8QwG6LtC3LEswVLwiLqzlxfQePB6Be40bAzm5KUgZoFPZS+Npwa89X94vQk2wmuGo26cxjMY3LxJ0y/Fw7K1iCfwOZyk8aAHBe5q7ba1S3a8/JuYBU6VKzSewVDGm1/F8+fQmym34BxUcCexhHoSa2Ltg9kpt6Hl4PqW9AqNdw9ZWVmPlzqNmZD8K3z/XoGLHMpOGYfbB1wW0pTjO9aR+l3pxP+WFa5SmaQJvqMte+3TbC2eKYbP//wN56IGteiBXuhZvSlVxhpQM4o1YZHaMQNmobHuD7ww4GS3w/g2fMyPiq9zbQdc5h+8Lm5QdJlHP8hOVio2pZL3s1NUet9Ixr5Ric+JcZyDc1GDWvRAL/REb6yh+WW205ee99PXeRIZbyHzIc492WDZSuX6oyfkaB05LzLDsIhze4KOJirXHz2NjmvSUA0zDIs4FzVUri9OhZxPhwP2uHKTHYZFnIsa1FIb/dDhzxD627dOsILMRdR01lt4aqMfugMO39C5MoUVYi6ipjtor6c2+gE2yMjE1aPMEHMRNT0hfoTa6IMTdZbnu4O2P5WbzcwQcxE1qA370p6jdtoDzr+N/e15C+6/BPvbtkx0NlhyqJ32gB7yD/d5Ftx/Cap9GHLUUTvtAeYDY4PVzOLzIWrhPBygdtojHMiU4tfr/lM4fnF+XxXUhkM2idppjy6fdWrqhn9W0bs3fETq3U6U0eCscRZRix7UTnvALrwdGzg4q+jkyDEifbeN3Pn141njhLHTYwMfwgraZ67yWuNUM39FOlekrlqi6F+XK9SAsQsl02PKWCOJni0kU9drZ8Z+95OJs0XQg/wv1E57dAcdX4yeLiRyX/F0yPhFtxpQ6t1BlD8CMNZMYj+XqWPy+WJYySY1sPzjOwS10IOfUzvt0eG35l8+kR/D4hEIJPfvV/9VAwKjfUUw9u703+oYrHjkTIH6PPjNFrnTb9lM7bQH3kbgXicnCi6EkTN74E5oj37bYn2K2ukDOGoOXGrLjUe+38kMwiTMvfRlbiwcyNhPbfQDIYbHugP2yrDfFu30Wcl82BXMjHQFMg+jlto8KjAY/gYX3VPzTAc8qgAAAABJRU5ErkJggg==">
+            <div>Mold</div>
+            <level [level]="moldLevel"></level>
+            <ngx-charts-line-chart
+                    [view]="[300, 300]"
+                    [scheme]="colorScheme"
+                    [results]="appService.dataForChart.mold"
+                    [yAxis]="true"
+                    [autoScale]="true">
+            </ngx-charts-line-chart>
+            <div class="subtitle">Pollen per cubic meter (last 5 days)</div>
+        </div>
+    </div>
+</div>
