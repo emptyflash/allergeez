@@ -5,7 +5,8 @@
 }
 
 .charts {
-  padding: 30px;
+  //height: 250px;
+  padding: 50px;
 
   h2 {
     text-align: center;
@@ -50,6 +51,7 @@
   .column {
     float: left;
     text-align: center;
+    width: 30%;
 
     img {
       margin: 0 auto;
@@ -67,10 +69,23 @@
       flex-direction: column;
       align-content: center;
       margin-bottom: 31pt;
+      width: 100%;
     }
 
     img {
       height: 54px;
+    }
+
+    .placeholder {
+      display: block;
+      margin: auto;
+      padding: 30px;
+
+      &:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
     }
 
     .ngx-charts-outer {

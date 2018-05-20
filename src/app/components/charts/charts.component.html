@@ -7,16 +7,24 @@
             <img src="assets/icons/tree_icon.png">
             <div>Tree Pollen</div>
             <level [level]="appService.levels.trees"></level>
-            <ngx-charts-line-chart
-                    [view]="[300, 150]"
-                    [scheme]="colorScheme"
-                    [results]="appService.dataForChart.trees"
-                    [yAxis]="true"
-                    [showXAxisLabel]="false"
-                    [showYAxisLabel]="true"
-                    [autoScale]="true">
-            </ngx-charts-line-chart>
-            <div class="subtitle">Pollen per cubic meter (last 5 days)</div>
+
+            <div *ngIf="appService.dataForChart.trees.length > 0">
+                <ngx-charts-line-chart
+                        [view]="[300, 150]"
+                        [scheme]="colorScheme"
+                        [results]="appService.dataForChart.trees"
+                        [yAxis]="true"
+                        [showXAxisLabel]="false"
+                        [showYAxisLabel]="true"
+                        [autoScale]="true">
+                </ngx-charts-line-chart>
+                <div class="subtitle">Pollen per cubic meter (last 5 days)</div>
+            </div>
+
+            <div *ngIf="appService.dataForChart.trees.length === 0">
+                <img class="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAVaSURBVHhe7Z1HiCxFHIfXiDkLKupNjA+zGNGL+aCi76Be1Pd4JhBB8GRAzAkVEwoiHlQEMYCigojh4EURE4KCAQXBhGIOqN9vsaCsrZ7u3q3u+s/O/4PvsLPT3dX9m6mq7umqnpty1sVH8W98A7dBpyIn4D+RV6BTkfMxDuQedCrigRjDAzGGB2KMZRnIllPsJRgH8gDm3jctqhv/vx1y63o4Zv/h1tEDMeaCQHQJ4jt3NP/E+PgvCOR7veCMxmsYH38PpDIeiDE8EGN4IMbwQIzhgRjDAzGGB2IMD8QYHogxPBBjeCDG8ECM4YEYwwMZgB1xP9xs/q9+eCAF2RlfwnDsfsfbcD3sigdSiPXxbYyPXfAG7IoHUojVGB+32L9wB+yCyUC2wENx1/m/poO7MD5uqcdiF0wFsg7ehKp7w/bfxL3QMjvhuxgft9SDsAumArkR420HP8NN0SJH41eYK3fwPdSHrQtmAtkc429G6mVoibXxclT7kCtvULf27ItdMRPIgRhvN/VxtMLW+AzmyqnhdPfiE3gNbo99MBHIRqibouPtpqocp2FtDsBPMC3fb3guLpXqgeyGbQ1i7P2oAGuwBnXg0zJ9igqqBFUDORN/xHh7XXwfV+BY6APwEObK8iyqCitFlUC0g/qkx9sJfoBqLB/Bu1Hd4PR+V/kranDO0OyC72C6fTXmKqca95KMHsikKupB3ARTDkN1fXPLqPHcCofgFPwB022qm3sMDsGogTRVUT/jWTgJnb2rp5UuKxXWEVgKjVq6BXXnf7qt11EngkMxSiBtVVSfM3H1ZBRguh5VIVdi1xOwJrbDVzFdv7wTdRFxSAYJRBfSTkJ9rffHSVXUxtiXPbFpna/gYj/BR+KXmK5T3+rTcQyKBrIWqqH7A+N1pHapotrYADXCNrf+b/Bk7IrKfSnmOg/6Bu+OY1E0kAsxXjZn3yqqDTW8ujyR25Z6aQpuErpk8yTmln8Mc52MISkWiOrurzFeNnWxVVQb+qUu3ZGguqx7YI598ENMl9E3/CKsQbFAtsV4udS3cEjUM7oKcxf7VEXqB6RD8Aw8Cs/GXOfgCzwYa1EsEPU+fsF42dincQzUMH+OuTK0+SLqg1WTom3IpAuEfRrZpaJLGU9hrhw5db5xNS61y1yCooGogXwB4+W1s31+5C+Fek7qZOgSS1ye1G/xRLRC0UCEDoTOQW5F1em6P6kmF2O8P6k6mbRE8UCscRzG+5N6Dlpi2QeizsbHGO9TUNXVUBcmF8uyD0TsjR9hvF86mVSPzBozEYjQBU5VT9fjeWh1+tiZCWRa8ECM4YEYwwMxhgdiDA/EGB6IMTwQY3ggxvBAjOGBGMMDMYYHYgwPxBgeiDFaA9FAzPvc0UzvLV4QiFtXD8SYHogx5wPRaNNp9WGMd+hlzL1vWtQAoqnGH5tnDA/EGNdhHIgG4ziV0BiQ3MhZ3YvljMwqzIURrHEH/szSFkZQ83E5A9M1jKCm6nAGom8YwZvRKUwuDA34fD55TRMJaNx6/JrU1BlOIZrCWIm58xBNsZcLRaO8nCUyKQzRdGLooQxAWxhi0pl6UyiaDtzpSZcwRNulk0mhaMCq04GuYYhTMX7ftZjSFMrt6KG00CcMoUdEaE5GvU+DOjWDXQ7Nc5IL5Q70UBroG0ZgQ9S8Jm0jbD2UHiw2jL40haLZ4zyU/xgrjICHMoGxwwg0haLHUMxsKLXCCEz6pswcepBW+nSEMcMINIVyPM4U6dMRaoQRyIVyAc4UmjzsOdTO/4S1n4SgUDTdn8qjeVKsTVIzCppHXZPsW5mHRBN2auKatplNB2Ru7l+ctK2KQrt3EAAAAABJRU5ErkJggg==">
+                <div class="subtitle">Select some data to see a graph!</div>
+            </div>
         </div>
 
         <!-- weed -->
@@ -24,14 +32,24 @@
             <img src="assets/icons/Grass_weed_icon.png">
             <div>Weed Pollen</div>
             <level [level]="appService.levels.weeds"></level>
-            <ngx-charts-line-chart
-                    [view]="[300, 150]"
-                    [scheme]="colorScheme"
-                    [results]="appService.dataForChart.weeds"
-                    [yAxis]="true"
-                    [autoScale]="true">
-            </ngx-charts-line-chart>
-            <div class="subtitle">Pollen per cubic meter (last 5 days)</div>
+
+            <div *ngIf="appService.dataForChart.weeds.length > 0">
+                <ngx-charts-line-chart
+                        [view]="[300, 150]"
+                        [scheme]="colorScheme"
+                        [results]="appService.dataForChart.weeds"
+                        [yAxis]="true"
+                        [showXAxisLabel]="false"
+                        [showYAxisLabel]="true"
+                        [autoScale]="true">
+                </ngx-charts-line-chart>
+                <div class="subtitle">Pollen per cubic meter (last 5 days)</div>
+            </div>
+
+            <div *ngIf="appService.dataForChart.weeds.length === 0">
+                <img class="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAVaSURBVHhe7Z1HiCxFHIfXiDkLKupNjA+zGNGL+aCi76Be1Pd4JhBB8GRAzAkVEwoiHlQEMYCigojh4EURE4KCAQXBhGIOqN9vsaCsrZ7u3q3u+s/O/4PvsLPT3dX9m6mq7umqnpty1sVH8W98A7dBpyIn4D+RV6BTkfMxDuQedCrigRjDAzGGB2KMZRnIllPsJRgH8gDm3jctqhv/vx1y63o4Zv/h1tEDMeaCQHQJ4jt3NP/E+PgvCOR7veCMxmsYH38PpDIeiDE8EGN4IMbwQIzhgRjDAzGGB2IMD8QYHogxPBBjeCDG8ECM4YEYwwMZgB1xP9xs/q9+eCAF2RlfwnDsfsfbcD3sigdSiPXxbYyPXfAG7IoHUojVGB+32L9wB+yCyUC2wENx1/m/poO7MD5uqcdiF0wFsg7ehKp7w/bfxL3QMjvhuxgft9SDsAumArkR420HP8NN0SJH41eYK3fwPdSHrQtmAtkc429G6mVoibXxclT7kCtvULf27ItdMRPIgRhvN/VxtMLW+AzmyqnhdPfiE3gNbo99MBHIRqibouPtpqocp2FtDsBPMC3fb3guLpXqgeyGbQ1i7P2oAGuwBnXg0zJ9igqqBFUDORN/xHh7XXwfV+BY6APwEObK8iyqCitFlUC0g/qkx9sJfoBqLB/Bu1Hd4PR+V/kranDO0OyC72C6fTXmKqca95KMHsikKupB3ARTDkN1fXPLqPHcCofgFPwB022qm3sMDsGogTRVUT/jWTgJnb2rp5UuKxXWEVgKjVq6BXXnf7qt11EngkMxSiBtVVSfM3H1ZBRguh5VIVdi1xOwJrbDVzFdv7wTdRFxSAYJRBfSTkJ9rffHSVXUxtiXPbFpna/gYj/BR+KXmK5T3+rTcQyKBrIWqqH7A+N1pHapotrYADXCNrf+b/Bk7IrKfSnmOg/6Bu+OY1E0kAsxXjZn3yqqDTW8ujyR25Z6aQpuErpk8yTmln8Mc52MISkWiOrurzFeNnWxVVQb+qUu3ZGguqx7YI598ENMl9E3/CKsQbFAtsV4udS3cEjUM7oKcxf7VEXqB6RD8Aw8Cs/GXOfgCzwYa1EsEPU+fsF42dincQzUMH+OuTK0+SLqg1WTom3IpAuEfRrZpaJLGU9hrhw5db5xNS61y1yCooGogXwB4+W1s31+5C+Fek7qZOgSS1ye1G/xRLRC0UCEDoTOQW5F1em6P6kmF2O8P6k6mbRE8UCscRzG+5N6Dlpi2QeizsbHGO9TUNXVUBcmF8uyD0TsjR9hvF86mVSPzBozEYjQBU5VT9fjeWh1+tiZCWRa8ECM4YEYwwMxhgdiDA/EGB6IMTwQY3ggxvBAjOGBGMMDMYYHYgwPxBgeiDFaA9FAzPvc0UzvLV4QiFtXD8SYHogx5wPRaNNp9WGMd+hlzL1vWtQAoqnGH5tnDA/EGNdhHIgG4ziV0BiQ3MhZ3YvljMwqzIURrHEH/szSFkZQ83E5A9M1jKCm6nAGom8YwZvRKUwuDA34fD55TRMJaNx6/JrU1BlOIZrCWIm58xBNsZcLRaO8nCUyKQzRdGLooQxAWxhi0pl6UyiaDtzpSZcwRNulk0mhaMCq04GuYYhTMX7ftZjSFMrt6KG00CcMoUdEaE5GvU+DOjWDXQ7Nc5IL5Q70UBroG0ZgQ9S8Jm0jbD2UHiw2jL40haLZ4zyU/xgrjICHMoGxwwg0haLHUMxsKLXCCEz6pswcepBW+nSEMcMINIVyPM4U6dMRaoQRyIVyAc4UmjzsOdTO/4S1n4SgUDTdn8qjeVKsTVIzCppHXZPsW5mHRBN2auKatplNB2Ru7l+ctK2KQrt3EAAAAABJRU5ErkJggg==">
+                <div class="subtitle">Select some data to see a graph!</div>
+            </div>
         </div>
 
         <!-- mold -->
@@ -39,14 +57,24 @@
             <img src="assets/icons/mold_icon.png">
             <div>Mold</div>
             <level [level]="appService.levels.mold"></level>
-            <ngx-charts-line-chart
-                    [view]="[300, 150]"
-                    [scheme]="colorScheme"
-                    [results]="appService.dataForChart.mold"
-                    [yAxis]="true"
-                    [autoScale]="true">
-            </ngx-charts-line-chart>
-            <div class="subtitle">Pollen per cubic meter (last 5 days)</div>
+
+            <div *ngIf="appService.dataForChart.mold.length > 0">
+                <ngx-charts-line-chart
+                        [view]="[300, 150]"
+                        [scheme]="colorScheme"
+                        [results]="appService.dataForChart.mold"
+                        [yAxis]="true"
+                        [showXAxisLabel]="false"
+                        [showYAxisLabel]="true"
+                        [autoScale]="true">
+                </ngx-charts-line-chart>
+                <div class="subtitle">Pollen per cubic meter (last 5 days)</div>
+            </div>
+
+            <div *ngIf="appService.dataForChart.mold.length === 0">
+                <img class="placeholder" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAVaSURBVHhe7Z1HiCxFHIfXiDkLKupNjA+zGNGL+aCi76Be1Pd4JhBB8GRAzAkVEwoiHlQEMYCigojh4EURE4KCAQXBhGIOqN9vsaCsrZ7u3q3u+s/O/4PvsLPT3dX9m6mq7umqnpty1sVH8W98A7dBpyIn4D+RV6BTkfMxDuQedCrigRjDAzGGB2KMZRnIllPsJRgH8gDm3jctqhv/vx1y63o4Zv/h1tEDMeaCQHQJ4jt3NP/E+PgvCOR7veCMxmsYH38PpDIeiDE8EGN4IMbwQIzhgRjDAzGGB2IMD8QYHogxPBBjeCDG8ECM4YEYwwMZgB1xP9xs/q9+eCAF2RlfwnDsfsfbcD3sigdSiPXxbYyPXfAG7IoHUojVGB+32L9wB+yCyUC2wENx1/m/poO7MD5uqcdiF0wFsg7ehKp7w/bfxL3QMjvhuxgft9SDsAumArkR420HP8NN0SJH41eYK3fwPdSHrQtmAtkc429G6mVoibXxclT7kCtvULf27ItdMRPIgRhvN/VxtMLW+AzmyqnhdPfiE3gNbo99MBHIRqibouPtpqocp2FtDsBPMC3fb3guLpXqgeyGbQ1i7P2oAGuwBnXg0zJ9igqqBFUDORN/xHh7XXwfV+BY6APwEObK8iyqCitFlUC0g/qkx9sJfoBqLB/Bu1Hd4PR+V/kranDO0OyC72C6fTXmKqca95KMHsikKupB3ARTDkN1fXPLqPHcCofgFPwB022qm3sMDsGogTRVUT/jWTgJnb2rp5UuKxXWEVgKjVq6BXXnf7qt11EngkMxSiBtVVSfM3H1ZBRguh5VIVdi1xOwJrbDVzFdv7wTdRFxSAYJRBfSTkJ9rffHSVXUxtiXPbFpna/gYj/BR+KXmK5T3+rTcQyKBrIWqqH7A+N1pHapotrYADXCNrf+b/Bk7IrKfSnmOg/6Bu+OY1E0kAsxXjZn3yqqDTW8ujyR25Z6aQpuErpk8yTmln8Mc52MISkWiOrurzFeNnWxVVQb+qUu3ZGguqx7YI598ENMl9E3/CKsQbFAtsV4udS3cEjUM7oKcxf7VEXqB6RD8Aw8Cs/GXOfgCzwYa1EsEPU+fsF42dincQzUMH+OuTK0+SLqg1WTom3IpAuEfRrZpaJLGU9hrhw5db5xNS61y1yCooGogXwB4+W1s31+5C+Fek7qZOgSS1ye1G/xRLRC0UCEDoTOQW5F1em6P6kmF2O8P6k6mbRE8UCscRzG+5N6Dlpi2QeizsbHGO9TUNXVUBcmF8uyD0TsjR9hvF86mVSPzBozEYjQBU5VT9fjeWh1+tiZCWRa8ECM4YEYwwMxhgdiDA/EGB6IMTwQY3ggxvBAjOGBGMMDMYYHYgwPxBgeiDFaA9FAzPvc0UzvLV4QiFtXD8SYHogx5wPRaNNp9WGMd+hlzL1vWtQAoqnGH5tnDA/EGNdhHIgG4ziV0BiQ3MhZ3YvljMwqzIURrHEH/szSFkZQ83E5A9M1jKCm6nAGom8YwZvRKUwuDA34fD55TRMJaNx6/JrU1BlOIZrCWIm58xBNsZcLRaO8nCUyKQzRdGLooQxAWxhi0pl6UyiaDtzpSZcwRNulk0mhaMCq04GuYYhTMX7ftZjSFMrt6KG00CcMoUdEaE5GvU+DOjWDXQ7Nc5IL5Q70UBroG0ZgQ9S8Jm0jbD2UHiw2jL40haLZ4zyU/xgrjICHMoGxwwg0haLHUMxsKLXCCEz6pswcepBW+nSEMcMINIVyPM4U6dMRaoQRyIVyAc4UmjzsOdTO/4S1n4SgUDTdn8qjeVKsTVIzCppHXZPsW5mHRBN2auKatplNB2Ru7l+ctK2KQrt3EAAAAABJRU5ErkJggg==">
+                <div class="subtitle">Select some data to see a graph!</div>
+            </div>
         </div>
     </div>
 </div>
