@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as _ from 'lodash';
 
+import {data} from './mock-data';
+
 enum Emotion {
   Happy,
   Neutral,
@@ -39,30 +41,74 @@ class AppProvider {
   };
   latestDate:number;
 
+  sums = {
+    trees: 0,
+    weeds: 0,
+    mold: 0,
+  };
+  levels = {
+    trees: 0,
+    weeds: 0,
+    mold: 0,
+  };
+
   selectedTrees = this.trees.slice();
   selectedWeeds = this.weeds.slice();
   selectedMolds = this.molds.slice();
   feeling:Emotion;
 
   constructor(private http:HttpClient) {
-    this.http.get('https://local.cameron.pizza/fivedays'
-    ).subscribe((response: IRecord[]) => {
-      if (response.length > 0) {
-        this.data = response;
-        const unique = Array.from(new Set(this.data.map(this.getDate)));
-        this.latestDate = Math.max(...unique);
-        this.getChartData();
+    this.getFiveDaysData().then((hasData) => {
+      if (hasData) {
+        this.http.get('https://allergeez.me/api/summary')
+          .subscribe((response:IRecord[]) => {
+            console.log('summary', response);
+            const getSum = (type:string) => {
+              return this.sums.trees = this.data
+                .filter(a => this.getDate(a) === this.latestDate)
+                .filter(a => a.allergen_type === type)
+                .map(a => a.count)
+                .reduce((acc, val) => acc + val);
+            };
+
+            if (response) {
+              this.sums.trees = response.tree_sum || getSum('TREE');
+              this.sums.weeds = response.weed_sum || getSum('WEED');
+              this.sums.mold = response.mold_sum || getSum('MOLD');
+
+              this.getTodaysTreeLevel();
+              this.getTodaysWeedsLevel();
+              this.getTodaysMoldLevel();
+            }
+          });
       }
-    }, (error) => {
-      console.error(`Couldn't load data for 5 days :(`);
+    })
+
+  }
+
+  getFiveDaysData() {
+    return new Promise((resolve) => {
+      this.http.get('https://allergeez.me/api/fivedays')
+        .subscribe((response:IRecord[]) => {
+          console.log('fivedays', response);
+          this.data = Array.isArray(response) ? response : data;
+          const unique = Array.from(new Set(this.data.map(this.getDate)));
+          this.latestDate = Math.max(...unique);
+          this.getChartData();
+          resolve(true);
+        }, (error) => {
+          console.error(`Couldn't load data for 5 days :(`);
+          resolve(false);
+        });
     });
   }
 
   /** Returns the date number, i.e. July 7, 2018 5:00 returns 7 **/
-  getDate(item:IRecord): number {
+  getDate(item:IRecord):number {
     return new Date(item['created_date']).getDate();
   }
 
+  /** Transform the data to be compatible with the ngx-chart **/
   getChartData() {
     const treeNames = this.selectedTrees.map(t => t.toLowerCase());
     const weedNames = this.selectedWeeds.map(t => t.toLowerCase());
@@ -86,72 +132,45 @@ class AppProvider {
   }
 
   getTodaysTreeLevel():Level {
-    let total = 0;
-    if (this.data.length > 0) {
-      total = this.data
-        .filter(a => this.getDate(a) === this.latestDate)
-        .filter(a => a.allergen_type === 'TREE')
-        .map(a => a.count)
-        .reduce((acc, val) => acc + val);
-      console.log('tree total', total);
-    }
-
+    console.log('tree sum', this.sums.trees);
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
-    if (total < 15) {
+    if (this.sums.trees < 15) {
       level = Level.Low;
-    } else if (total >= 15 && total < 90) {
+    } else if (this.sums.trees >= 15 && this.sums.trees < 90) {
       level = Level.Moderate;
-    } else if (total >= 90 && total < 1500) {
+    } else if (this.sums.trees >= 90 && this.sums.trees < 1500) {
       level = Level.High;
     }
-    return level;
+    this.levels.trees = level;
   }
 
   getTodaysWeedsLevel():Level {
-    let total = 0;
-    if (this.data.length > 0) {
-      total = this.data
-        .filter(a => this.getDate(a) === this.latestDate)
-        .filter(a => a.allergen_type === 'WEED')
-        .map(a => a.count)
-        .reduce((acc, val) => acc + val);
-      console.log('weed total', total);
-    }
-
+    console.log('weed sum', this.sums.weeds);
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
-    if (total < 10) {
+    if (this.sums.weeds < 10) {
       level = Level.Low;
-    } else if (total >= 10 && total < 50) {
+    } else if (this.sums.weeds >= 10 && this.sums.weeds < 50) {
       level = Level.Moderate;
-    } else if (total >= 50 && total < 500) {
+    } else if (this.sums.weeds >= 50 && this.sums.weeds < 500) {
       level = Level.High;
     }
-    return level;
+    this.levels.weeds = level;
   }
 
   getTodaysMoldLevel():Level {
-    let total = 0;
-    if (this.data.length > 0) {
-      total = this.data
-        .filter(a => this.getDate(a) === this.latestDate)
-        .filter(a => a.allergen_type === 'MOLD')
-        .map(a => a.count)
-        .reduce((acc, val) => acc + val);
-      console.log('mold total', total);
-    }
-
+    console.log('mold sum', this.sums.mold);
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
-    if (total < 6500) {
+    if (this.sums.mold < 6500) {
       level = Level.Low;
-    } else if (total >= 6500 && total < 13000) {
+    } else if (this.sums.mold >= 6500 && this.sums.mold < 13000) {
       level = Level.Moderate;
-    } else if (total >= 13000 && total < 50000) {
+    } else if (this.sums.mold >= 13000 && this.sums.mold < 50000) {
       level = Level.High;
     }
-    return level;
+    this.levels.mold = level;
   }
 
   toggleTree(tree:string) {
