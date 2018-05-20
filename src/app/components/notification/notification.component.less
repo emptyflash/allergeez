@@ -7,6 +7,11 @@
 .notification {
   padding: 30px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
+  align-items: center;
 
   button {
     background-color: @orange;
@@ -18,6 +23,10 @@
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
+  }
+
+  button:nth-child(2) {
+    background-color: #4CAF50;
   }
 
   .message {

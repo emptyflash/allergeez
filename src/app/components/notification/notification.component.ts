@@ -22,8 +22,6 @@ export class NotificationComponent {
     setupNotifications() {
         this.attemptedSubscription = true;
 
-        console.log(this.allergens, this.threshold);
-
         this.pushNotifications.subscribe(
             this.allergens,
             this.threshold,
@@ -31,5 +29,18 @@ export class NotificationComponent {
             this.subscribed = ok;
             this.error = error;
         });
+    }
+
+    test() {
+        this.pushNotifications.test()
+            .then(({ ok, error }) => {
+               const message = `Push notifications are ${!ok ? 'not' : ''} working.`;
+               if (!ok) {
+                   alert(message);
+                   console.log('error testing push notifications: ', error);
+               } else {
+                   alert(message);
+               }
+            });
     }
 }
