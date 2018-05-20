@@ -45,3 +45,50 @@ def notifications():
         return jsonify({"ok": False, "error": str(e)})
 
 
+@app.route("/summary")
+def summary():
+    try:
+        with db.cursor() as cursor:
+            for num_days in range(10):
+              cursor.execute("""select * from allergens WHERE created_date BETWEEN DATE(NOW() - INTERVAL %s DAY) AND DATE(NOW())""" % num_days)
+              results=cursor.fetchall()
+              if len(results)>0:
+                    break;
+            cursor.execute("""select * from allergens WHERE allergen_type = 'TREE' AND created_date BETWEEN DATE(NOW() - INTERVAL %s DAY) AND DATE(NOW())""" % num_days)
+            results=cursor.fetchall()
+            tree_sum=0
+            for res in results:
+                tree_sum=tree_sum+res['count']
+            cursor.execute("""select * from allergens WHERE allergen_type = 'WEED' AND created_date BETWEEN DATE(NOW() - INTERVAL %s DAY) AND DATE(NOW())""" % num_days)
+            results=cursor.fetchall()
+            weed_sum=0
+            for res in results:
+                weed_sum=weed_sum+res['count']
+            cursor.execute("""select * from allergens WHERE allergen_type = 'MOLD' AND created_date BETWEEN DATE(NOW() - INTERVAL %s DAY) AND DATE(NOW())""" % num_days)
+            results=cursor.fetchall()
+            mold_sum=0
+            for res in results:
+                mold_sum=mold_sum+res['count']
+        return jsonify({"tree_sum": tree_sum, "weed_sum": weed_sum,"mold_sum": mold_sum})
+    except Exception as e:
+        print(e)
+        return jsonify({"ok": False, "error": str(e)})
+    
+@app.route("/fivedays")
+def fivedays():
+    try:
+        with db.cursor() as cursor:
+            for num_days in range(10):
+              #print("""select * from allergens WHERE created_date BETWEEN DATE(NOW() - INTERVAL %s DAY) AND DATE(NOW())""" % num_days)
+                num_dist=cursor.execute("""select DISTINCT created_date from allergens WHERE created_date BETWEEN DATE(NOW() - INTERVAL %s DAY) AND DATE(NOW())""" % num_days)
+                if num_dist==5:
+                    break;
+
+            cursor.execute("""select * from allergens WHERE created_date BETWEEN DATE(NOW() - INTERVAL %s DAY) AND DATE(NOW()) ORDER BY created_date""" %num_days)
+            results=cursor.fetchall()
+        return jsonify(results)
+    except Exception as e:
+        print(e)
+        return jsonify({"ok": False, "error": str(e)})
+    
+
