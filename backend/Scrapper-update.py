@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
 import pymysql
+import user_notifications
 
 req  = requests.get("http://www.houstontx.gov/health/Pollen-Mold/index.html")
 soup = BeautifulSoup(req.text, "lxml")
@@ -113,6 +114,7 @@ try:
         if not identical:
             cursor.execute(str_db)
             db.commit()
+            user_notifications.retrieve_subs_and_notify(db)
 
 finally:
     db.close()

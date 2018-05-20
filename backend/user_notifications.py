@@ -1,12 +1,50 @@
 import pymysql
+from pywebpush import webpush, WebPushException
+import json
 
-db = pymysql.connect(host='localhost',
-                     user='root',
-                     password='',
-                     db='db',
-                     charset='utf8mb4',
-                     cursorclass=pymysql.cursors.DictCursor)
-try:
+
+def make_notification(subscriptions):
+    threshold = subscriptions[0]["threshold"]
+    body = ", ".join([sub["allergen_name"] for sub in subscriptions])
+    return json.dumps({
+        "notification": {
+            "title": "These allergens are above your threshold of %s!" % threshold,
+            "requireInteraction": True,
+            "body": body,
+            "icon": "assets/main-page-logo-small-hat.png",
+            "vibrate": [100, 50, 100],
+            "data": {
+                "primaryKey": 1
+            },
+            "actions": [{
+                "action": "explore",
+                "title": "Go to the site"
+            }]
+        }
+    })
+
+
+def notify(user, subscriptions):
+    try:
+        sub_info = {
+            "endpoint": user["endpoint"], 
+            "keys": {
+                "auth": user["auth"],
+                "p256dh": user["p256dh"]
+            }
+        }
+        webpush(sub_info, 
+                make_notification(subscriptions),
+                vapid_private_key="uGQra_0tEV7JgC7dLaSf4MGcY1T7j0h7MPlHfKNZYBw",
+                vapid_claims={"sub": "mailto:emptyflash@gmail.com"})
+    except WebPushException as ex:
+        print("I'm sorry, Dave, but I can't do that: {}", repr(ex))
+        # Mozilla returns additional information in the body of the response.
+        if ex.response and ex.response.json():
+            extra = ex.response.json()
+            print("Remote service replied with a {}:{}, {}", extra.code, extra.errno, extra.message)
+
+def retrieve_subs_and_notify(db):
     with db.cursor() as cursor:
         for num_days in range(10):
           #print("""select * from allergens WHERE created_date BETWEEN DATE(NOW() - INTERVAL %s DAY) AND DATE(NOW())""" % num_days)
@@ -120,12 +158,15 @@ try:
             if res['user_id'] not in unique_user:
                 unique_user.add(res['user_id'])
 
-        for user in unique_user:
-            alerts_user=[]
+        cursor.execute("SELECT * FROM users WHERE id IN (%s);" % (",".join([str(user_id) for user_id in unique_user])))
+        complete_users = cursor.fetchall()
+
+        for user in complete_users:
+            subscriptions = []
             for res in res_all:
-               if res['user_id']==user:
-                    print(res)
-                    alerts_user.append(res['allergen_name'])
-            print("alert user ",user," for ", alerts_user)
-finally:
-    db.close()
+               if res['user_id']==user["id"]:
+                    subscriptions.append(res)
+            try:
+                notify(user, subscriptions)
+            except Exception as e:
+                print("Failed to send notification for user", user, e)
