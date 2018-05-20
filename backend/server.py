@@ -44,15 +44,8 @@ def notifications():
         print(e)
         return jsonify({"ok": False, "error": str(e)})
 
-
-<<<<<<< HEAD
 @app.route("/summary")
 def summary():
-=======
-
-@app.route("/summary")
-def notifications():
->>>>>>> 7e1083fc6dff6e5040ab644cd3a3426f390235b5
     try:
         with db.cursor() as cursor:
             for num_days in range(10):
