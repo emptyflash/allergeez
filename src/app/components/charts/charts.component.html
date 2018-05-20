@@ -6,7 +6,7 @@
         <div class="column">
             <img src="assets/icons/tree_icon.png">
             <div>Tree Pollen</div>
-            <level [level]="treeLevel"></level>
+            <level [level]="appService.levels.trees"></level>
             <ngx-charts-line-chart
                     [view]="[300, 150]"
                     [scheme]="colorScheme"
@@ -23,7 +23,7 @@
         <div class="column">
             <img src="assets/icons/Grass_weed_icon.png">
             <div>Weed Pollen</div>
-            <level [level]="weedsLevel"></level>
+            <level [level]="appService.levels.weeds"></level>
             <ngx-charts-line-chart
                     [view]="[300, 150]"
                     [scheme]="colorScheme"
@@ -38,7 +38,7 @@
         <div class="column">
             <img src="assets/icons/mold_icon.png">
             <div>Mold</div>
-            <level [level]="moldLevel"></level>
+            <level [level]="appService.levels.mold"></level>
             <ngx-charts-line-chart
                     [view]="[300, 150]"
                     [scheme]="colorScheme"
