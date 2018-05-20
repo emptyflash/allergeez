@@ -5,8 +5,8 @@
 }
 
 .charts {
-  height: 220px;
-  padding: 30px;
+  height: 250px;
+  padding: 50px;
 
   .column {
     float: left;
@@ -15,6 +15,18 @@
 
     img {
       height: 54px;
+    }
+
+    .placeholder {
+      display: block;
+      margin: auto;
+      padding: 30px;
+
+      &:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
     }
 
     .ngx-charts-outer {

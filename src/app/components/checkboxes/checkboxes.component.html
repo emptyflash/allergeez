@@ -1,7 +1,7 @@
 <div class="checkboxes">
     <div class="row">
         <div class="column">
-            <h3>Trees</h3>
+            <h3 (click)="appService.toggleAllTrees()">Trees</h3>
             <div *ngFor="let tree of appService.trees">
                 <label>
                     <input type="checkbox"
@@ -15,7 +15,7 @@
         </div>
 
         <div class="column">
-            <h3>Weeds</h3>
+            <h3 (click)="appService.toggleAllWeeds()">Weeds</h3>
             <div *ngFor="let weed of appService.weeds">
                 <label><input type="checkbox"
                               name="checkbox"
@@ -26,7 +26,7 @@
         </div>
 
         <div class="column">
-            <h3>Mold</h3>
+            <h3 (click)="appService.toggleAllMold()">Mold</h3>
             <div *ngFor="let mold of appService.molds">
                 <label><input type="checkbox"
                               name="checkbox"
