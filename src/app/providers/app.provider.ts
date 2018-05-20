@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {data} from './mock-data';
 import * as _ from 'lodash';
+import { HttpClient } from '@angular/common/http';
 
 enum Emotion {
-  Happy,
-  Neutral,
-  Sad
+  Happy = 'happy',
+  Neutral = 'neutral',
+  Sad = 'sad',
 }
 
 enum Level {
@@ -42,9 +43,11 @@ class AppProvider {
   selectedTrees = this.trees.slice();
   selectedWeeds = this.weeds.slice();
   selectedMolds = this.molds.slice();
-  feeling:Emotion;
+  feeling: string;
 
-  constructor() {
+  constructor(
+      private http: HttpClient,
+  ) {
     const unique = Array.from(new Set(this.data.map(this.getDate)));
     this.latestDate = Math.max(...unique);
     this.getChartData();
@@ -166,8 +169,25 @@ class AppProvider {
     this.getChartData();
   }
 
-  setFeeling(emotion:Emotion) {
+  setFeeling(emotion: string) {
     this.feeling = emotion;
+
+    return new Promise((resolve) => {
+        localStorage.setItem('[allergeez:feeling]', this.feeling);
+
+        this.http.post(`https://allergeez.me/api/feedback`, {
+            emotion,
+            user_id: JSON.parse(localStorage.getItem('[allergeez:userId]'))
+        })
+        .subscribe((response) => {
+            resolve(response);
+        }, (error) => {
+            resolve({
+                error,
+                ok: false,
+            })
+        });
+    })
   }
 }
 

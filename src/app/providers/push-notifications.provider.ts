@@ -30,7 +30,9 @@ export class PushNotificationsProvider {
             this.swPush.requestSubscription({
                 serverPublicKey: this.keys.publicKey,
             }).then((subscription) => {
-                  this.http.post(`https://692ebc1b.ngrok.io/notifications`, {
+                  localStorage.setItem('[allergeez:userId]', subscription.endpoint);
+
+                  this.http.post(`https://allergeez.me/api/notifications`, {
                       endpoint: subscription.endpoint,
                       allergens,
                       threshold,
@@ -63,7 +65,7 @@ export class PushNotificationsProvider {
             this.swPush.requestSubscription({
                 serverPublicKey: this.keys.publicKey,
             }).then((subscription) => {
-                this.http.post(`https://692ebc1b.ngrok.io/test`, {
+                this.http.post(`https://allergeez.me/api/test`, {
                     endpoint: subscription.endpoint,
                     auth: toBase64(subscription, 'auth'),
                     p256dh: toBase64(subscription, 'p256dh'),
