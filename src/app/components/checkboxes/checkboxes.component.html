@@ -42,4 +42,16 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <label>
+            Threshold
+            <select [(ngModel)]="threshold">
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="heavy">Heavy</option>
+                <option value="extremely heavy">Extremely Heavy</option>
+            </select>
+        </label>
+    </div>
 </div>
+<notification [allergens]="getAllergens()" [threshold]="threshold"></notification>
