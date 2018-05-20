@@ -13,6 +13,8 @@ const toBase64 = (sub, key) => btoa(String.fromCharCode.apply(null, new Uint8Arr
   providedIn: 'root'
 })
 export class PushNotificationsProvider {
+
+    //generated VAPID keys with https://github.com/web-push-libs/web-push
     keys = {
       publicKey: 'BDAE-eTErxN96tRKmkxxj60ebfvM7-PI1cgwNeCwgFP6oKRTOwDzvWmZ-xwdkc7dNHBbKHksQUb6-eS8bvNlMAk',
       privateKey: 'uGQra_0tEV7JgC7dLaSf4MGcY1T7j0h7MPlHfKNZYBw',
