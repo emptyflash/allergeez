@@ -136,7 +136,7 @@ class AppProvider {
 
     const getChartPoint = (item:IRecord[]) => ({
       name: item[0].allergen_name,
-      series: item.map(i => ({name: this.getDate(i), value: i.count}))
+      series: item.map((i, index) => ({name: index, value: i.count}))
     });
 
     this.dataForChart.trees = _.sortBy(trees.map(getChartPoint), 'name');
