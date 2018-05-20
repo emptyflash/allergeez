@@ -1,0 +1,30 @@
+<div class="checkboxes">
+    <pre>
+        Trees: {{appService.selectedTrees.toString()}}
+        Weeds: {{appService.selectedWeeds.toString()}}
+        Molds: {{appService.selectedMolds.toString()}}
+    </pre>
+
+    <div class="row">
+        <div class="column">
+            <h3>Trees</h3>
+            <div *ngFor="let tree of appService.trees">
+                <label><input type="checkbox" name="checkbox" value="value" (click)="appService.toggleTree(tree)">{{tree}}</label>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3>Weeds</h3>
+            <div *ngFor="let weed of appService.weeds">
+                <label><input type="checkbox" name="checkbox" value="value" (click)="appService.toggleWeed(weed)">{{weed}}</label>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3>Mold</h3>
+            <div *ngFor="let option of appService.molds">
+                <label><input type="checkbox" name="checkbox" value="value" (click)="appService.toggleMold(option)">{{option}}</label>
+            </div>
+        </div>
+    </div>
+</div>

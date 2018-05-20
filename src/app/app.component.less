@@ -8,16 +8,26 @@
   font-family: 'Lato', sans-serif;
 }
 
-.header {
-  text-align: center;
-  h1 {
-    color: @navy;
-  }
-  h2 {
-    color: @dark-green;
-  }
-}
+.wrapper {
+  width: 100%;
+  height: auto;
+  vertical-align: baseline;
 
-.container {
+  .header {
+    display: block;
+    height: 40px;
+    text-align: center;
 
+    h1 {
+      color: @navy;
+    }
+    h2 {
+      color: @dark-green;
+    }
+  }
+
+  .content {
+    display: block;
+    padding: 20px;
+  }
 }
