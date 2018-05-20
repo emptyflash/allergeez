@@ -7,5 +7,5 @@ Service Worker Demo: https://blog.angular-university.io/angular-push-notificatio
 `src` - Angular frontend (generated with angular-cli)
 
     npm install
-    ng serve`
+    ng serve
     // go to localhost:4200
