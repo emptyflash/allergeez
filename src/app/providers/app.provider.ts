@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {data} from './mock-data';
+import {HttpClient} from '@angular/common/http';
 import * as _ from 'lodash';
 
 enum Emotion {
@@ -16,11 +16,11 @@ enum Level {
 }
 
 interface IRecord {
-  allergen_id: number;
-  allergen_type: string;
-  allergen_name: string;
-  count: number;
-  created_date: string;
+  allergen_id:number;
+  allergen_type:string;
+  allergen_name:string;
+  count:number;
+  created_date:string;
 }
 
 @Injectable({
@@ -31,27 +31,36 @@ class AppProvider {
   weeds = ["Amaranth", "Aster", "Cattail", "Nettle", "Other", "Plantain", "Ragweed", "Sage", "Sedge", "Sheep"];
   molds = ["Algae", "Alternaria", "Ascopores", "Aspergillus", "Basidiospores", "Cercospora", "Cladosporium", "Curvularia", "Epicoccum", "Erysiphe", "Helminthosporium", "Myxomycetes", "Nigrospora", "Periconia", "Pithomyces", "Rusts", "Spegazzinia", "Stemphilium", "Tetraploa", "Torula"];
 
-  data: IRecord[] = data;
+  data:IRecord[] = [];
   dataForChart = {
     trees: [],
     weeds: [],
     mold: []
   };
-  latestDate: number;
+  latestDate:number;
 
   selectedTrees = this.trees.slice();
   selectedWeeds = this.weeds.slice();
   selectedMolds = this.molds.slice();
   feeling:Emotion;
 
-  constructor() {
-    const unique = Array.from(new Set(this.data.map(this.getDate)));
-    this.latestDate = Math.max(...unique);
-    this.getChartData();
+  constructor(private http:HttpClient) {
+    this.http.get('https://local.cameron.pizza/fivedays'
+    ).subscribe((response: IRecord[]) => {
+      if (response.length > 0) {
+        this.data = response;
+        const unique = Array.from(new Set(this.data.map(this.getDate)));
+        this.latestDate = Math.max(...unique);
+        this.getChartData();
+      }
+    }, (error) => {
+      console.error(`Couldn't load data for 5 days :(`);
+    });
   }
 
-  getDate(item: IRecord) {
-    return +item['created_date'].split(',')[2].trim();
+  /** Returns the date number, i.e. July 7, 2018 5:00 returns 7 **/
+  getDate(item:IRecord): number {
+    return new Date(item['created_date']).getDate();
   }
 
   getChartData() {
@@ -66,7 +75,7 @@ class AppProvider {
     const weeds = Object.values(_.groupBy(typeAndIsSelected('WEED', weedNames), 'allergen_name'));
     const mold = Object.values(_.groupBy(typeAndIsSelected('MOLD', moldNames), 'allergen_name'));
 
-    const getChartPoint = (item: IRecord[]) => ({
+    const getChartPoint = (item:IRecord[]) => ({
       name: item[0].allergen_name,
       series: item.map(i => ({name: this.getDate(i), value: i.count}))
     });
@@ -77,13 +86,15 @@ class AppProvider {
   }
 
   getTodaysTreeLevel():Level {
-    const total = this.data
-      .filter(a => this.getDate(a) === this.latestDate)
-      .filter(a => a.allergen_type === 'TREE')
-      .map(a => a.count)
-      .reduce((acc, val) => acc + val);
-
-    console.log('tree total', total);
+    let total = 0;
+    if (this.data.length > 0) {
+      total = this.data
+        .filter(a => this.getDate(a) === this.latestDate)
+        .filter(a => a.allergen_type === 'TREE')
+        .map(a => a.count)
+        .reduce((acc, val) => acc + val);
+      console.log('tree total', total);
+    }
 
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
@@ -98,13 +109,15 @@ class AppProvider {
   }
 
   getTodaysWeedsLevel():Level {
-    const total = this.data
-      .filter(a => this.getDate(a) === this.latestDate)
-      .filter(a => a.allergen_type === 'WEED')
-      .map(a => a.count)
-      .reduce((acc, val) => acc + val);
-
-    console.log('weed and grass total', total);
+    let total = 0;
+    if (this.data.length > 0) {
+      total = this.data
+        .filter(a => this.getDate(a) === this.latestDate)
+        .filter(a => a.allergen_type === 'WEED')
+        .map(a => a.count)
+        .reduce((acc, val) => acc + val);
+      console.log('weed total', total);
+    }
 
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
@@ -119,13 +132,15 @@ class AppProvider {
   }
 
   getTodaysMoldLevel():Level {
-    const total = this.data
-      .filter(a => this.getDate(a) === this.latestDate)
-      .filter(a => a.allergen_type === 'MOLD')
-      .map(a => a.count)
-      .reduce((acc, val) => acc + val);
-
-    console.log('mold total', total);
+    let total = 0;
+    if (this.data.length > 0) {
+      total = this.data
+        .filter(a => this.getDate(a) === this.latestDate)
+        .filter(a => a.allergen_type === 'MOLD')
+        .map(a => a.count)
+        .reduce((acc, val) => acc + val);
+      console.log('mold total', total);
+    }
 
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
