@@ -30,13 +30,14 @@ export class PushNotificationsProvider {
             this.swPush.requestSubscription({
                 serverPublicKey: this.keys.publicKey,
             }).then((subscription) => {
-                  this.http.post(`https://692ebc1b.ngrok.io/notifications`, {
+                  this.http.post(`https://allergeez.me/api/notifications`, {
                       endpoint: subscription.endpoint,
                       allergens,
                       threshold,
                       auth: toBase64(subscription, 'auth'),
                       p256dh: toBase64(subscription, 'p256dh'),
                   }).subscribe((response: ISubscriptionResponse) => {
+                      localStorage.setItem('[allergeez:userId]', response['result'].user_id);
                       resolve(response);
                   }, (error) => {
                       console.log('error subscribing with backend: ', error);
@@ -58,13 +59,13 @@ export class PushNotificationsProvider {
         })
     }
 
-    test() {
+    test(userId) {
         return new Promise((resolve) => {
             this.swPush.requestSubscription({
                 serverPublicKey: this.keys.publicKey,
             }).then((subscription) => {
-                this.http.post(`https://692ebc1b.ngrok.io/test`, {
-                    endpoint: subscription.endpoint,
+                this.http.post(`https://allergeez.me/api/test_notification`, {
+                    user_id: userId,
                     auth: toBase64(subscription, 'auth'),
                     p256dh: toBase64(subscription, 'p256dh'),
                 }).subscribe((response) => {

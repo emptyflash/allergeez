@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as _ from 'lodash';
+import {HttpClient} from '@angular/common/http';
 
 import {data} from './mock-data';
 
 enum Emotion {
-  Happy,
-  Neutral,
-  Sad
+  Happy = 'happy',
+  Neutral = 'neutral',
+  Sad = 'sad',
 }
 
 enum Level {
@@ -55,7 +56,7 @@ class AppProvider {
   selectedTrees = this.trees.slice();
   selectedWeeds = this.weeds.slice();
   selectedMolds = this.molds.slice();
-  feeling:Emotion;
+  feeling:string;
 
   constructor(private http:HttpClient) {
     this.getFiveDaysData().then((hasData) => {
@@ -83,7 +84,6 @@ class AppProvider {
           });
       }
     })
-
   }
 
   getFiveDaysData() {
@@ -131,7 +131,7 @@ class AppProvider {
     this.dataForChart.mold = _.sortBy(mold.map(getChartPoint), 'name');
   }
 
-  getTodaysTreeLevel():Level {
+  getTodaysTreeLevel() {
     console.log('tree sum', this.sums.trees);
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
@@ -145,7 +145,7 @@ class AppProvider {
     this.levels.trees = level;
   }
 
-  getTodaysWeedsLevel():Level {
+  getTodaysWeedsLevel() {
     console.log('weed sum', this.sums.weeds);
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
@@ -159,7 +159,7 @@ class AppProvider {
     this.levels.weeds = level;
   }
 
-  getTodaysMoldLevel():Level {
+  getTodaysMoldLevel() {
     console.log('mold sum', this.sums.mold);
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
@@ -200,8 +200,25 @@ class AppProvider {
     this.getChartData();
   }
 
-  setFeeling(emotion:Emotion) {
+  setFeeling(emotion:string) {
     this.feeling = emotion;
+
+    return new Promise((resolve) => {
+      localStorage.setItem('[allergeez:feeling]', this.feeling);
+
+      this.http.post(`https://allergeez.me/api/feedback`, {
+          emotion,
+          user_id: JSON.parse(localStorage.getItem('[allergeez:userId]'))
+        })
+        .subscribe((response) => {
+          resolve(response);
+        }, (error) => {
+          resolve({
+            error,
+            ok: false,
+          })
+        });
+    })
   }
 }
 

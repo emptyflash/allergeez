@@ -14,6 +14,7 @@ export class NotificationComponent {
     allergens = []
     @Input()
     threshold = '';
+    hasUserId = JSON.parse(localStorage.getItem('[allergeez:userId]')) !== null;
 
     constructor(
         private pushNotifications: PushNotificationsProvider,
@@ -32,7 +33,11 @@ export class NotificationComponent {
     }
 
     test() {
-        this.pushNotifications.test()
+        const userId = JSON.parse(localStorage.getItem('[allergeez:userId]'));
+
+        if (!userId) return;
+
+        this.pushNotifications.test(userId)
             .then(({ ok, error }) => {
                const message = `Push notifications are ${!ok ? 'not' : ''} working.`;
                if (!ok) {
