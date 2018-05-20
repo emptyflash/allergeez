@@ -14,6 +14,14 @@ enum Level {
   Extreme
 }
 
+interface IRecord {
+  allergen_id: number;
+  allergen_type: string;
+  allergen_name: string;
+  count: number;
+  created_date: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +30,8 @@ class AppProvider {
   weeds = ['Ragweed', 'Plantain', 'Sage', 'Sheep', 'Aster', 'Cattail', 'Amaranth', 'Nettle', 'Sedge', 'Other',];
   molds = ['Algae', 'Erysiphe', 'Alternaria', 'Aspergillus', 'Ascopores', 'Periconia', 'Basidiospores', 'Pithomyces', 'Cercospora', 'Rusts', 'Cladosporium', 'Myxomycetes', 'Curvularia', 'Spegazzinia', 'Helminthosporium', 'Stemphilium', 'Epicoccum', 'Tetraploa', 'Nigrospora', 'Torula',];
 
-  data = data;
+  data: IRecord[] = data;
+  latestDate: number;
 
   selectedTrees = this.trees.slice();
   selectedWeeds = this.weeds.slice();
@@ -30,11 +39,17 @@ class AppProvider {
   feeling:Emotion;
 
   constructor() {
+    const unique = Array.from(new Set(this.data.map(this.getDate)));
+    this.latestDate = Math.max(...unique);
+  }
+
+  getDate(item: IRecord) {
+    return +item['created_date'].split(',')[2].trim();
   }
 
   getTodaysTreeLevel():Level {
     const total = this.data
-      // TODO - filter only data points from most recent day
+      .filter(a => this.getDate(a) === this.latestDate)
       .filter(a => a.allergen_type === 'TREE')
       .map(a => a.count)
       .reduce((acc, val) => acc + val);
@@ -55,7 +70,7 @@ class AppProvider {
 
   getTodaysWeedsLevel():Level {
     const total = this.data
-      // TODO - filter only data points from most recent day
+      .filter(a => this.getDate(a) === this.latestDate)
       .filter(a => a.allergen_type === 'WEED')
       .map(a => a.count)
       .reduce((acc, val) => acc + val);
@@ -64,11 +79,11 @@ class AppProvider {
 
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
-    if (total < 5) {
+    if (total < 10) {
       level = Level.Low;
-    } else if (total >= 5 && total < 20) {
+    } else if (total >= 10 && total < 50) {
       level = Level.Moderate;
-    } else if (total >= 20 && total < 200) {
+    } else if (total >= 50 && total < 500) {
       level = Level.High;
     }
     return level;
@@ -76,8 +91,8 @@ class AppProvider {
 
   getTodaysMoldLevel():Level {
     const total = this.data
-      // TODO - filter only data points from most recent day
-      .filter(a => a.allergen_type === 'WEED')
+      .filter(a => this.getDate(a) === this.latestDate)
+      .filter(a => a.allergen_type === 'MOLD')
       .map(a => a.count)
       .reduce((acc, val) => acc + val);
 
