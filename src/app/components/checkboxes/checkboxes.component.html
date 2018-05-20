@@ -9,21 +9,36 @@
         <div class="column">
             <h3>Trees</h3>
             <div *ngFor="let tree of appService.trees">
-                <label><input type="checkbox" name="checkbox" value="value" (click)="appService.toggleTree(tree)">{{tree}}</label>
+                <label>
+                    <input type="checkbox"
+                           name="checkbox"
+                           value="value"
+                           (click)="appService.toggleTree(tree)"
+                           [checked]="appService.selectedTrees.includes(tree)">
+                    {{tree}}
+                </label>
             </div>
         </div>
 
         <div class="column">
             <h3>Weeds</h3>
             <div *ngFor="let weed of appService.weeds">
-                <label><input type="checkbox" name="checkbox" value="value" (click)="appService.toggleWeed(weed)">{{weed}}</label>
+                <label><input type="checkbox"
+                              name="checkbox"
+                              value="value"
+                              (click)="appService.toggleWeed(weed)"
+                              [checked]="appService.selectedWeeds.includes(weed)">{{weed}}</label>
             </div>
         </div>
 
         <div class="column">
             <h3>Mold</h3>
-            <div *ngFor="let option of appService.molds">
-                <label><input type="checkbox" name="checkbox" value="value" (click)="appService.toggleMold(option)">{{option}}</label>
+            <div *ngFor="let mold of appService.molds">
+                <label><input type="checkbox"
+                              name="checkbox"
+                              value="value"
+                              (click)="appService.toggleMold(mold)"
+                              [checked]="appService.selectedMolds.includes(mold)">{{mold}}</label>
             </div>
         </div>
     </div>

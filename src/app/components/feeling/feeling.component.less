@@ -1,7 +1,37 @@
 @import '../../app.component.less';
 
+* {
+  font-family: 'Sunflower', sans-serif;
+}
+
 .feeling {
   background-color: @turquoise;
   height: 100px;
   padding: 30px;
+
+  .message {
+    padding-bottom: 20px;
+  }
+
+  .column {
+    float: left;
+    text-align: center;
+    width: 33.33%;
+
+    a {
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .emotion-label {
+      font-size: 12px;
+      font-weight: 300;
+    }
+  }
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
 }
