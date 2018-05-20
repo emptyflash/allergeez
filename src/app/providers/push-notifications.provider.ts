@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
+import { HttpClient } from '@angular/common/http';
+
+interface ISubscriptionResponse {
+    subscribed: boolean;
+    message?: string;
+}
 
 @Injectable()
 export class PushNotificationsProvider {
@@ -10,17 +16,38 @@ export class PushNotificationsProvider {
 
     constructor(
         private swPush: SwPush,
+        private http: HttpClient,
     ) {}
 
     subscribe() {
-      this.swPush.requestSubscription({
-          serverPublicKey: this.keys.publicKey,
-      })
-      .then((subscription) => {
-        console.log('subscription: ', subscription);
-      })
-      .catch((error) => {
-        console.log('error: ', error);
-      })
+        return new Promise((resolve, reject) => {
+            this.swPush.requestSubscription({
+                serverPublicKey: this.keys.publicKey,
+            }).then(({ endpoint }) => {
+                    this.http.post(`api/subscribe`, {
+                        endpoint,
+                        allergens: ['tree', 'mold'],
+                        threshhold: 'medium',
+                    }).subscribe((response: ISubscriptionResponse) => {
+                        resolve(response);
+                    }, (error) => {
+                        console.log('error subscribing with backend: ', error);
+
+                        resolve({
+                          subscribed: false,
+                          message: error,
+                        });
+                    })
+                })
+                .catch((error) => {
+                    console.log('error setting permission on browser: ', error);
+
+                    resolve({
+                        subscribed: false,
+                        message: error,
+                    });
+                });
+        })
+
     }
 }

@@ -9,6 +9,7 @@ import { NotificationsSetupComponent } from './components/NotificationsSetup.com
 import { PushNotificationsProvider } from './providers/push-notifications.provider';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { environment } from '../environments/environment';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
