@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {data} from './mock-data';
+import * as _ from 'lodash';
 
 enum Emotion {
   Happy,
@@ -31,6 +32,11 @@ class AppProvider {
   molds = ["Algae", "Alternaria", "Ascopores", "Aspergillus", "Basidiospores", "Cercospora", "Cladosporium", "Curvularia", "Epicoccum", "Erysiphe", "Helminthosporium", "Myxomycetes", "Nigrospora", "Periconia", "Pithomyces", "Rusts", "Spegazzinia", "Stemphilium", "Tetraploa", "Torula"];
 
   data: IRecord[] = data;
+  dataForChart = {
+    trees: [],
+    weeds: [],
+    mold: []
+  };
   latestDate: number;
 
   selectedTrees = this.trees.slice();
@@ -41,10 +47,33 @@ class AppProvider {
   constructor() {
     const unique = Array.from(new Set(this.data.map(this.getDate)));
     this.latestDate = Math.max(...unique);
+    this.getChartData();
   }
 
   getDate(item: IRecord) {
     return +item['created_date'].split(',')[2].trim();
+  }
+
+  getChartData() {
+    const treeNames = this.selectedTrees.map(t => t.toLowerCase());
+    const weedNames = this.selectedWeeds.map(t => t.toLowerCase());
+    const moldNames = this.selectedMolds.map(t => t.toLowerCase());
+
+    // filter data by type (TREE, WEED, MOLD) and also whether it's currently in the list of selected allergens
+    const typeAndIsSelected = (type, list) => this.data.filter(a => a.allergen_type === type && list.includes(a.allergen_name));
+
+    const trees = Object.values(_.groupBy(typeAndIsSelected('TREE', treeNames), 'allergen_name'));
+    const weeds = Object.values(_.groupBy(typeAndIsSelected('WEED', weedNames), 'allergen_name'));
+    const mold = Object.values(_.groupBy(typeAndIsSelected('MOLD', moldNames), 'allergen_name'));
+
+    const getChartPoint = (item: IRecord[]) => ({
+      name: item[0].allergen_name,
+      series: item.map(i => ({name: this.getDate(i), value: i.count}))
+    });
+
+    this.dataForChart.trees = _.sortBy(trees.map(getChartPoint), 'name');
+    this.dataForChart.weeds = _.sortBy(weeds.map(getChartPoint), 'name');
+    this.dataForChart.mold = _.sortBy(mold.map(getChartPoint), 'name');
   }
 
   getTodaysTreeLevel():Level {
@@ -116,6 +145,7 @@ class AppProvider {
     } else {
       this.selectedTrees = this.selectedTrees.filter(t => t !== tree);
     }
+    this.getChartData();
   }
 
   toggleWeed(weed:string) {
@@ -124,6 +154,7 @@ class AppProvider {
     } else {
       this.selectedWeeds = this.selectedWeeds.filter(w => w !== weed);
     }
+    this.getChartData();
   }
 
   toggleMold(mold:string) {
@@ -132,6 +163,7 @@ class AppProvider {
     } else {
       this.selectedMolds = this.selectedMolds.filter(m => m !== mold);
     }
+    this.getChartData();
   }
 
   setFeeling(emotion:Emotion) {
