@@ -25,6 +25,12 @@ interface IRecord {
   created_date:string;
 }
 
+interface ISum {
+  tree_sum: number;
+  weed_sum: number;
+  mold_sum: number;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -75,7 +81,7 @@ class AppProvider {
               }
             };
 
-            if (response) {
+            if (response: ISum) {
               this.sums.trees = response.tree_sum || getSum('TREE');
               this.sums.weeds = response.weed_sum || getSum('WEED');
               this.sums.mold = response.mold_sum || getSum('MOLD');
