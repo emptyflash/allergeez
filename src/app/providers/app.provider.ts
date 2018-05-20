@@ -26,9 +26,9 @@ interface IRecord {
   providedIn: 'root'
 })
 class AppProvider {
-  trees = ['Maple', 'Mulberry', 'Alder', 'Pine', 'Birch', 'Sycamore', 'Hickory', 'Cottonwood', 'Hackberry', 'Oak', 'Hazelnut', 'Willow', 'Cedar', 'Linden', 'Ash', 'Elm', 'Walnut', 'SweetGum', 'Other',];
-  weeds = ['Ragweed', 'Plantain', 'Sage', 'Sheep', 'Aster', 'Cattail', 'Amaranth', 'Nettle', 'Sedge', 'Other',];
-  molds = ['Algae', 'Erysiphe', 'Alternaria', 'Aspergillus', 'Ascopores', 'Periconia', 'Basidiospores', 'Pithomyces', 'Cercospora', 'Rusts', 'Cladosporium', 'Myxomycetes', 'Curvularia', 'Spegazzinia', 'Helminthosporium', 'Stemphilium', 'Epicoccum', 'Tetraploa', 'Nigrospora', 'Torula',];
+  trees = ["Alder", "Ash", "Birch", "Cedar", "Cottonwood", "Elm", "Hackberry", "Hazelnut", "Hickory", "Linden", "Maple", "Mulberry", "Oak", "Other", "Pine", "SweetGum", "Sycamore", "Walnut", "Willow"];
+  weeds = ["Amaranth", "Aster", "Cattail", "Nettle", "Other", "Plantain", "Ragweed", "Sage", "Sedge", "Sheep"];
+  molds = ["Algae", "Alternaria", "Ascopores", "Aspergillus", "Basidiospores", "Cercospora", "Cladosporium", "Curvularia", "Epicoccum", "Erysiphe", "Helminthosporium", "Myxomycetes", "Nigrospora", "Periconia", "Pithomyces", "Rusts", "Spegazzinia", "Stemphilium", "Tetraploa", "Torula"];
 
   data: IRecord[] = data;
   latestDate: number;
