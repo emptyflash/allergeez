@@ -21,32 +21,32 @@ export class PushNotificationsProvider {
         private http: HttpClient,
     ) {}
 
-    subscribe() {
+    subscribe(allergens, threshold) {
         return new Promise((resolve, reject) => {
             this.swPush.requestSubscription({
                 serverPublicKey: this.keys.publicKey,
             }).then(({ endpoint }) => {
-                    this.http.post(`api/subscribe`, {
-                        endpoint,
-                        allergens: ['tree', 'mold'],
-                        threshhold: 'medium',
-                    }).subscribe((response: ISubscriptionResponse) => {
-                        resolve(response);
-                    }, (error) => {
-                        console.log('error subscribing with backend: ', error);
+                  this.http.post(`http://b2238bdc.ngrok.io/notifications`, {
+                      endpoint,
+                      allergens,
+                      threshold,
+                  }).subscribe((response: ISubscriptionResponse) => {
+                      resolve(response);
+                  }, (error) => {
+                      console.log('error subscribing with backend: ', error);
 
-                        resolve({
-                          subscribed: false,
-                          message: error,
-                        });
-                    })
+                      resolve({
+                        ok: false,
+                        error: error,
+                      });
+                  })
                 })
                 .catch((error) => {
                     console.log('error setting permission on browser: ', error);
 
                     resolve({
-                        subscribed: false,
-                        message: error,
+                        ok: false,
+                        error: error,
                     });
                 });
         })
