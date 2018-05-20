@@ -3,7 +3,7 @@ from flask_cors import CORS
 import pymysql
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 db = pymysql.connect(host='localhost',
                      user='root',
@@ -17,8 +17,8 @@ def notifications():
     try:
         data = request.get_json()
         with db.cursor() as cursor:
-            user_sql = "INSERT INTO `users` (`endpoint`) VALUES (%s)"
-            cursor.execute(user_sql, [data["endpoint"]])
+            user_sql = "INSERT INTO `users` (`endpoint`, `auth`, `p256dh`) VALUES (%s, %s, %s)"
+            cursor.execute(user_sql, (data["endpoint"], data["auth"], data["p256dh"]))
             db.commit()
             cursor.execute("SELECT LAST_INSERT_ID()")
             user_id = cursor.fetchone()['LAST_INSERT_ID()']
