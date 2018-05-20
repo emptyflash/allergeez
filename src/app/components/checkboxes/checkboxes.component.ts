@@ -8,7 +8,7 @@ import { AppProvider } from '../../providers/app.provider';
   styleUrls: ['./checkboxes.component.less']
 })
 export class CheckboxesComponent implements OnInit {
-  constructor(private appService: AppProvider) { }
+  constructor(appService: AppProvider) { }
 
   ngOnInit() {
   }
