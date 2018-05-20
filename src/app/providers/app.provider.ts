@@ -67,7 +67,7 @@ class AppProvider {
     this.getFiveDaysData().then((hasData) => {
       if (hasData) {
         this.http.get('https://allergeez.me/api/summary')
-          .subscribe((response:IRecord[]) => {
+          .subscribe((response:ISum) => {
             console.log('summary', response);
             const getSum = (type:string) => {
               if (this.data) {
@@ -81,7 +81,7 @@ class AppProvider {
               }
             };
 
-            if (response: ISum) {
+            if (response) {
               this.sums.trees = response.tree_sum || getSum('TREE');
               this.sums.weeds = response.weed_sum || getSum('WEED');
               this.sums.mold = response.mold_sum || getSum('MOLD');
