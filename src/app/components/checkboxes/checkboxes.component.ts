@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AppService } from '../../providers/app.service';
+import { AppProvider } from '../../providers/app.provider';
 
 @Component({
   selector: 'checkboxes',
@@ -8,7 +8,7 @@ import { AppService } from '../../providers/app.service';
   styleUrls: ['./checkboxes.component.less']
 })
 export class CheckboxesComponent implements OnInit {
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppProvider) { }
 
   ngOnInit() {
   }

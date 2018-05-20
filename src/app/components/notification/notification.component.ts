@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PushNotificationsProvider } from '../../providers/push-notifications.provider';
 
 @Component({
   selector: 'notification',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotificationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private pushNotifications: PushNotificationsProvider) {}
+
+  setupNotifications() {
+    this.pushNotifications.subscribe();
+  }
 
   ngOnInit() {
   }
