@@ -1,0 +1,7 @@
+requests==2.18.4
+Flask==1.0.2
+Flask-Cors==3.0.4
+pywebpush==1.7.0
+PyMySQL==0.8.1
+beautifulsoup4==4.6.0
+lxml==3.7.2
