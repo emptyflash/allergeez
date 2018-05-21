@@ -2,20 +2,18 @@ from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
 import pymysql
+from db import connect_db
 
+days = ["Mondays",
+        "Tuesdays",
+        "Wednesdays",
+        "Thursdays",
+        "Fridays",
+       ]
+url = "http://www.houstontx.gov/health/Pollen-Mold/%s.html"
 
-for day_num in range(14, 19):
-    if day_num==14:
-        req  = requests.get("http://www.houstontx.gov/health/Pollen-Mold/Mondays.html")
-    if day_num==15:
-        req  = requests.get("http://www.houstontx.gov/health/Pollen-Mold/Tuesdays.html")
-    if day_num==16:
-        req  = requests.get("http://www.houstontx.gov/health/Pollen-Mold/Wednesdays.html")
-    if day_num==17:
-        req  = requests.get("http://www.houstontx.gov/health/Pollen-Mold/Thursdays.html")
-    if day_num==18:
-        req  = requests.get("http://www.houstontx.gov/health/Pollen-Mold/Fridays.html")
-    soup = BeautifulSoup(req.text, "lxml")
+for day in days:
+    req  = requests.get(url)
 
     table1=soup.find_all('table')[1]
 
@@ -94,12 +92,7 @@ for day_num in range(14, 19):
         else:
             str_db =str_db+','
 
-    db = pymysql.connect(host='localhost',
-                         user='root',
-                         password='',
-                         db='db',
-                         charset='utf8mb4',
-                         cursorclass=pymysql.cursors.DictCursor)
+    db = connect_db()
     try:
         with db.cursor() as cursor:
             cursor.execute(str_db)

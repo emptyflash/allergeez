@@ -3,15 +3,11 @@ import requests
 from datetime import datetime
 import pymysql
 import user_notifications
+from db import connect_db
 
 req  = requests.get("http://www.houstontx.gov/health/Pollen-Mold/index.html")
 soup = BeautifulSoup(req.text, "lxml")
-db = pymysql.connect(host='localhost',
-                     user='root',
-                     password='',
-                     db='db',
-                     charset='utf8mb4',
-                     cursorclass=pymysql.cursors.DictCursor)
+db = connect_db()
 
 try:
     with db.cursor() as cursor:
