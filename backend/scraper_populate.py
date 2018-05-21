@@ -1,19 +1,21 @@
 from bs4 import BeautifulSoup
 import requests
-from datetime import datetime
 import pymysql
 from db import connect_db
+from datetime import date, datetime
+from dateutil.relativedelta import relativedelta, MO, TU, WE, TH, FR
 
-days = ["Mondays",
-        "Tuesdays",
-        "Wednesdays",
-        "Thursdays",
-        "Fridays",
-       ]
+days = {"Mondays": MO,
+        "Tuesdays": TU,
+        "Wednesdays": WE,
+        "Thursdays": TH,
+        "Fridays": FR,
+        }
 url = "http://www.houstontx.gov/health/Pollen-Mold/%s.html"
 
-for day in days:
-    req  = requests.get(url)
+for day in days.keys():
+    req  = requests.get(url % day)
+    soup = BeautifulSoup(req.text, "lxml")
 
     table1=soup.find_all('table')[1]
 
@@ -71,8 +73,9 @@ for day in days:
             mold_pollen[a_name]=int(b2.replace(',' , ''))
             #print(i, a_name,int(b2.replace(',' , '')))
 
-    time2=datetime.now()
-    time = datetime(time2.year, time2.month, day_num, time2.hour,time2.minute, time2.second ) ;
+    today = date.today()
+    past_date = today + relativedelta(weekday=days[day](-1))
+    time = datetime.combine(past_date, datetime.min.time())
 
     str_db="""INSERT INTO `allergens` 
     (`allergen_type`, `allergen_name`, `count`, `created_date`) VALUES """
@@ -97,7 +100,7 @@ for day in days:
         with db.cursor() as cursor:
             cursor.execute(str_db)
             db.commit()
-            print('ok')
+            print(day, ': ok')
     finally:
         db.close()
 
