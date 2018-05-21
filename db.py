@@ -3,7 +3,7 @@ import os
 
 def connect_db():
     host = os.environ.get("MYSQL_HOST", "localhost")
-    port = os.environ.get("MYSQL_PORT", 0)
+    port = os.environ.get("MYSQL_PORT", None)
     user = os.environ.get("MYSQL_USER", "root")
     pw = os.environ.get("MYSQL_PW", "")
     db = os.environ.get("MYSQL_DB", "db")
