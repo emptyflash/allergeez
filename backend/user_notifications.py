@@ -2,16 +2,13 @@ import pymysql
 from pywebpush import webpush, WebPushException
 import json
 
-
-def make_notification(subscriptions):
-    threshold = subscriptions[0]["threshold"]
-    body = ", ".join([sub["allergen_name"] for sub in subscriptions])
+def make_notification(title, body):
     return json.dumps({
         "notification": {
-            "title": "These allergens are above your threshold of %s!" % threshold,
+            "title": title,
             "requireInteraction": True,
             "body": body,
-            "icon": "assets/main-page-logo-small-hat.png",
+            "icon": "assets/icons/Logo.png",
             "vibrate": [100, 50, 100],
             "data": {
                 "primaryKey": 1
@@ -24,7 +21,7 @@ def make_notification(subscriptions):
     })
 
 
-def notify(user, subscriptions):
+def notify(user, notification):
     try:
         sub_info = {
             "endpoint": user["endpoint"], 
@@ -34,7 +31,7 @@ def notify(user, subscriptions):
             }
         }
         webpush(sub_info, 
-                make_notification(subscriptions),
+                notification,
                 vapid_private_key="uGQra_0tEV7JgC7dLaSf4MGcY1T7j0h7MPlHfKNZYBw",
                 vapid_claims={"sub": "mailto:emptyflash@gmail.com"})
     except WebPushException as ex:
@@ -167,6 +164,10 @@ def retrieve_subs_and_notify(db):
                if res['user_id']==user["id"]:
                     subscriptions.append(res)
             try:
-                notify(user, subscriptions)
+                threshold = subscriptions[0]["threshold"]
+                body = ", ".join([sub["allergen_name"] for sub in subscriptions])
+                title = "These allergens are above your threshold of %s!" % threshold
+                notification = make_notification(title, body)
+                notify(user, notification)
             except Exception as e:
                 print("Failed to send notification for user", user, e)

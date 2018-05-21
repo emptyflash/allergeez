@@ -14,7 +14,7 @@ try:
           `allergen_type` varchar(255) DEFAULT NULL,
           `allergen_name` varchar(255) DEFAULT NULL,
           `count` int(11) DEFAULT NULL,
-          `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+          `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COMMENT='HACKATHON';""")
         db.commit()
         cursor.execute("""CREATE TABLE IF NOT EXISTS `users` (
@@ -29,6 +29,12 @@ try:
           `id` int(11) PRIMARY KEY AUTO_INCREMENT,
           `threshold` varchar(15) NOT NULL,
           `allergen_name` varchar(255) NOT NULL,
+          `user_id` int(11) NOT NULL REFERENCES users(id)
+        );""")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS `feedback` (
+          `id` int(11) PRIMARY KEY AUTO_INCREMENT,
+          `emotion` varchar(255) DEFAULT NULL,
+          `created_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
           `user_id` int(11) NOT NULL REFERENCES users(id)
         );""")
         db.commit()
