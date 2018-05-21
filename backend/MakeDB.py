@@ -1,11 +1,7 @@
 import pymysql
+from db import connect_db
 
-db = pymysql.connect(host='localhost',
-                             user='root',
-                             password='',
-                             db='db',
-                             charset='utf8mb4',
-                             cursorclass=pymysql.cursors.DictCursor)
+db = connect_db()
 
 try:
     with db.cursor() as cursor:

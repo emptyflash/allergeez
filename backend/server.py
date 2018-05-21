@@ -2,17 +2,10 @@ from flask import Flask, jsonify, request, g
 from flask_cors import CORS
 import pymysql
 import user_notifications
+from db import connect_db
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
-
-def connect_db():
-    return pymysql.connect(host='localhost',
-            user='root',
-            password='',
-            db='db',
-            charset='utf8mb4',
-            cursorclass=pymysql.cursors.DictCursor)
 
 def get_db():
     '''Opens a new database connection per request.'''        
