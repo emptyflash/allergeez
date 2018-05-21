@@ -213,6 +213,34 @@ class AppProvider {
     this.getChartData();
   }
 
+  toggleAllTrees() {
+    if (this.selectedTrees.length === 0) {
+      this.selectedTrees = this.trees.slice();
+    } else {
+      this.selectedTrees = [];
+    }
+    this.getChartData();
+  }
+
+  toggleAllWeeds() {
+    if (this.selectedWeeds.length === 0) {
+      this.selectedWeeds = this.weeds.slice();
+    } else {
+      this.selectedWeeds = [];
+    }
+    this.getChartData();
+  }
+
+  toggleAllMold() {
+    if (this.selectedMolds.length === 0) {
+      this.selectedMolds = this.molds.slice();
+    } else {
+      this.selectedMolds = [];
+    }
+    this.getChartData();
+  }
+
+
   setFeeling(emotion:string) {
     this.feeling = emotion;
 
