@@ -66,7 +66,7 @@ class AppProvider {
   constructor(private http:HttpClient) {
     this.getFiveDaysData().then((hasData) => {
       if (hasData) {
-        this.http.get('https://allergeez.me/api/summary')
+        this.http.get('/api/summary')
           .subscribe((response:ISum) => {
             console.log('summary', response);
             const getSum = (type:string) => {
@@ -97,7 +97,7 @@ class AppProvider {
 
   getFiveDaysData() {
     return new Promise((resolve) => {
-      this.http.get('https://allergeez.me/api/fivedays')
+      this.http.get('/api/fivedays')
         .subscribe((response:IRecord[]) => {
           console.log('fivedays', response, Array.isArray(response));
           this.data = Array.isArray(response) ? response : data;
@@ -247,7 +247,7 @@ class AppProvider {
     return new Promise((resolve) => {
       localStorage.setItem('[allergeez:feeling]', this.feeling);
 
-      this.http.post(`https://allergeez.me/api/feedback`, {
+      this.http.post(`/api/feedback`, {
           emotion,
           user_id: JSON.parse(localStorage.getItem('[allergeez:userId]'))
         })

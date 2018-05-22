@@ -1,44 +1,25 @@
-# allergeez
+# [allergeez](https://allergeez.me)
 
-Houston Hackathon 2018
+Created for the Houston Hackathon 2018. Check out our [devpost submission](https://devpost.com/software/allergeez)
 
-[allergeez.me](https://allergeez.me)
+## Development
 
+### Overview
 
-### Frontend
+ * Frontend built in Typescript with Angular (lives in `src/`)
+ * Notifications using [Service Workers and Push Notifications](https://blog.angular-university.io/angular-push-notifications/)
+ * Scraper written in Python 3 with `BeautifulSoup` and `requests`
+ * Data is store in a MySQL database and accessed in Python with `PyMySQL`
+ * API serves data and stores user data with Flask
 
-`src` - Angular frontend (generated with [angular-cli](https://github.com/angular/angular-cli))
+### Getting started
 
-*  push notifications:
-    Followed the following tutorial to get service worker and push notifications setup. Also a good read on how push notifications work.
-    https://blog.angular-university.io/angular-push-notifications/
+ * Install and start MySQL
+    * The easiest way to do this with local dev is run `./backend/start_mysql_docker.sh` (requires docker)
+ * Install python dependencies with `pip install -r requirements.txt`
+ * Create the database tables with `python db.py` 
+ * Fill the database with the last five days of data with `python backend/scraper_populate.py`
+ * Install npm dependencies with `npm install`
+ * Build the frontend with `npm run build`
+ * Start the backend server with `FLASK_ENV=development FLASK_APP=backend/server.py flask run`
 
-* Run site
-```
-npm install
-ng serve
-```
- Then you can go to localhost:4200
-
-
-### Backend
-* creates empty DB
-```
-python MakeDB.py 
-```
-* fill empty DB with last five days of data
-```
-python Scrapper-Scrapper-populate.py
-```
-* to run every 30 min, pushed any update to DB, determines when to send notifications 
-```
-python Scrapper-update.py
-```
-* determines what notifications to send to which user:
-```
-python User-Notifications.py
-```
-* visualize for one pollenkind
-```
-python Scrapper-visualize.py
-```

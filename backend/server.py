@@ -1,11 +1,14 @@
-from flask import Flask, jsonify, request, g
+from flask import Flask, jsonify, request, g, send_from_directory, abort
 from flask_cors import CORS
 import pymysql
 import user_notifications
 from db import connect_db
+import os
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+DEVELOPMENT = os.environ["FLASK_ENV"] == "development"
 
 def get_db():
     '''Opens a new database connection per request.'''        
@@ -130,5 +133,19 @@ def test_notification():
         print(e)
         return jsonify({"ok": False, "error": str(e)})
             
+@app.route('/')
+def root():
+    if DEVELOPMENT:
+        return send_from_directory("../dist/allergeez", "index.html")
+    else:
+        flask.abort(404)
+
+@app.route('/<path:path>')
+def dist(path):
+    if DEVELOPMENT:
+        return send_from_directory("../dist/allergeez", path)
+    else:
+        flask.abort(404)
+
 if __name__ == "__main__":
     app.run()

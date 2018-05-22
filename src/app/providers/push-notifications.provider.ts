@@ -30,7 +30,7 @@ export class PushNotificationsProvider {
             this.swPush.requestSubscription({
                 serverPublicKey: this.keys.publicKey,
             }).then((subscription) => {
-                  this.http.post(`https://allergeez.me/api/notifications`, {
+                  this.http.post(`/api/notifications`, {
                       endpoint: subscription.endpoint,
                       allergens,
                       threshold,
@@ -64,7 +64,7 @@ export class PushNotificationsProvider {
             this.swPush.requestSubscription({
                 serverPublicKey: this.keys.publicKey,
             }).then((subscription) => {
-                this.http.post(`https://allergeez.me/api/test_notification`, {
+                this.http.post(`/api/test_notification`, {
                     user_id: userId,
                     auth: toBase64(subscription, 'auth'),
                     p256dh: toBase64(subscription, 'p256dh'),
