@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm run serve",
+    "serve": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "prod": "ng build --prod --aot=false --build-optimizer=false --output-path=\"docs\""
+    "dev": "npm run backend & npm run serve",
+    "prod": "ng build --prod --aot=false --build-optimizer=false --output-path=\"docs\"",
+    "backend": "FLASK_ENV=development FLASK_APP=backend/server.py flask run",
+    "prod-backend": "FLASK_ENV=production FLASK_APP=backend/server.py flask run"
   },
   "private": true,
   "dependencies": {

@@ -29,5 +29,5 @@ feedback on how they're feeling.
  * Fill the database with the last five days of data with `python backend/scraper_populate.py`
  * Install npm dependencies with `npm install`
  * Build the frontend with `npm run build`
- * Start the backend server with `FLASK_ENV=development FLASK_APP=backend/server.py flask run`
-
+ * Start the backend server in dev mode with `npm run backend`
+ * For automatic reload of the frontend and backend, run `npm run dev`
