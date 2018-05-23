@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dev": "npm run backend & npm run serve",
+    "dev": "npm run backend & ng build --watch",
     "prod": "ng build --prod --aot=false --build-optimizer=false --output-path=\"docs\"",
     "backend": "FLASK_ENV=development FLASK_APP=backend/server.py flask run",
     "prod-backend": "FLASK_ENV=production FLASK_APP=backend/server.py flask run"

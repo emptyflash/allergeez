@@ -2,8 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as _ from 'lodash';
 
-import {data} from './mock-data';
-
 enum Emotion {
   Happy = 'happy',
   Neutral = 'neutral',
@@ -45,7 +43,8 @@ class AppProvider {
     weeds: [],
     mold: []
   };
-  latestDate:number;
+  latestDate:Date;
+  todaysDate:Date;
 
   sums = {
     trees: 0,
@@ -64,6 +63,7 @@ class AppProvider {
   feeling:string;
 
   constructor(private http:HttpClient) {
+    this.todaysDate = new Date();
     this.getFiveDaysData().then((hasData) => {
       if (hasData) {
         this.http.get('/api/summary')
@@ -99,26 +99,25 @@ class AppProvider {
     return new Promise((resolve) => {
       this.http.get('/api/fivedays')
         .subscribe((response:IRecord[]) => {
-          console.log('fivedays', response, Array.isArray(response));
-          this.data = Array.isArray(response) ? response : data;
+          if (!Array.isArray(response)) {
+              resolve(false);
+              return;
+          }
+          this.data = response;
           const unique = Array.from(new Set(this.data.map(this.getDate)));
-          this.latestDate = Math.max(...unique);
+          this.latestDate = unique.sort((a, b) => b.getTime() - a.getTime())[0];
           this.getChartData();
           resolve(true);
         }, (error) => {
           console.error(`Couldn't load data for 5 days :(`);
-          this.data = data;
-          const unique = Array.from(new Set(this.data.map(this.getDate)));
-          this.latestDate = Math.max(...unique);
-          this.getChartData();
-          resolve(true);
+          resolve(false);
         });
     });
   }
 
   /** Returns the date number, i.e. July 7, 2018 5:00 returns 7 **/
-  getDate(item:IRecord):number {
-    return new Date(item['created_date']).getDate();
+  getDate(item:IRecord):Date {
+    return new Date(item['created_date']);
   }
 
   /** Transform the data to be compatible with the ngx-chart **/
@@ -145,7 +144,6 @@ class AppProvider {
   }
 
   getTodaysTreeLevel() {
-    console.log('tree sum', this.sums.trees);
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
     if (this.sums.trees < 15) {
@@ -159,7 +157,6 @@ class AppProvider {
   }
 
   getTodaysWeedsLevel() {
-    console.log('weed sum', this.sums.weeds);
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
     if (this.sums.weeds < 10) {
@@ -173,7 +170,6 @@ class AppProvider {
   }
 
   getTodaysMoldLevel() {
-    console.log('mold sum', this.sums.mold);
     // http://www.houstontx.gov/health/Pollen-Mold/numbers.html
     let level = Level.Extreme;
     if (this.sums.mold < 6500) {

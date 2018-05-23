@@ -1,5 +1,5 @@
 <div class="charts">
-    <h2>Today's Forecast</h2>
+    <h2>{{appService.latestDate === appService.todaysDate ? 'Today\'s Counts' : 'Counts for ' + appService.latestDate.toDateString()}}</h2>
 
     <div class="options">
         <!-- tree -->
