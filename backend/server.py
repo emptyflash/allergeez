@@ -8,7 +8,7 @@ import os
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-DEVELOPMENT = os.environ["FLASK_ENV"] == "development"
+DEVELOPMENT = os.environ.get("FLASK_ENV") == "development"
 
 def get_db():
     '''Opens a new database connection per request.'''        
