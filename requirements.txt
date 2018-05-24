@@ -6,3 +6,4 @@ PyMySQL==0.8.1
 beautifulsoup4==4.6.0
 lxml==3.7.2
 gunicorn==19.8.1
+python-dateutil==2.7.3

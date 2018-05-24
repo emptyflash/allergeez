@@ -1,12 +1,12 @@
 import pymysql
 import os
 
-def connect_db():
+def connect_db(**kwargs):
     host = os.environ.get("MYSQL_HOST", "localhost")
     port = os.environ.get("MYSQL_PORT", None)
     user = os.environ.get("MYSQL_USER", "root")
     pw = os.environ.get("MYSQL_PW", "")
-    db = os.environ.get("MYSQL_DB", "db")
+    db = os.environ.get("MYSQL_DB", kwargs.get("db", "db"))
     return pymysql.connect(host=host,
                            port=port,
                            user=user,
@@ -16,9 +16,11 @@ def connect_db():
                            cursorclass=pymysql.cursors.DictCursor)
 
 if __name__ == "__main__":
-    db = connect_db()
+    db = connect_db(db=None)
     try:
         with db.cursor() as cursor:
+            cursor.execute("CREATE DATABASE IF NOT EXISTS db;")
+            cursor.execute("USE db;")
             cursor.execute("""CREATE TABLE IF NOT EXISTS `allergens` (
               `allergen_id` int(11) PRIMARY KEY AUTO_INCREMENT,
               `allergen_type` varchar(255) DEFAULT NULL,
@@ -48,7 +50,7 @@ if __name__ == "__main__":
               `user_id` int(11) NOT NULL REFERENCES users(id)
             );""")
             db.commit()
-    except Excetpion as e:
+    except Exception as e:
         print(e)
     finally:
         db.close()

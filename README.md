@@ -24,10 +24,11 @@ feedback on how they're feeling.
 
  * Install and start MySQL
     * The easiest way to do this with local dev is run `./backend/start_mysql_docker.sh` (requires docker)
- * Install python dependencies with `pip install -r requirements.txt`
- * Create the database tables with `python db.py` 
+ * Install python dependencies with `pip3 install -r requirements.txt`
+ * Create the database tables with `python3 backend/db.py` 
  * Fill the database with the last five days of data with `python backend/scraper_populate.py`
  * Install npm dependencies with `npm install`
  * Build the frontend with `npm run build`
  * Start the backend server in dev mode with `npm run backend`
  * For automatic reload of the frontend and backend, run `npm run dev`
+ * The server will be online at `http://localhost:5000`
