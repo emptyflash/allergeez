@@ -68,7 +68,6 @@ class AppProvider {
       if (hasData) {
         this.http.get('/api/summary')
           .subscribe((response:ISum) => {
-            console.log('summary', response);
             const getSum = (type:string) => {
               if (this.data) {
                 return this.data
