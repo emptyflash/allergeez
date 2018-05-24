@@ -3,7 +3,7 @@
         <h2 *ngIf="appService.latestDate.getDate() !== appService.todaysDate.getDate()">{{ 'Counts for ' + appService.latestDate.toDateString() }}</h2>
         <h2 *ngIf="appService.latestDate.getDate() === appService.todaysDate.getDate()">Today's Counts</h2>
     </div>
-    <div *ngIf="appService.latestDate">
+    <div *ngIf="!appService.latestDate">
         <h2>Loading Data...</h2>
     </div>
 
