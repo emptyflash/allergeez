@@ -2,37 +2,43 @@
     <div class="row">
         <div class="column">
             <h3 (click)="appService.toggleAllTrees()">Trees</h3>
-            <div *ngFor="let tree of appService.trees">
-                <label>
-                    <input type="checkbox"
-                           name="checkbox"
-                           value="value"
-                           (click)="appService.toggleTree(tree)"
-                           [checked]="appService.selectedTrees.includes(tree)">
-                    {{tree}}
-                </label>
+            <div *ngFor="let tree of appService.trees" class="checkbox pretty p-default p-curve p-thick">
+                <input type="checkbox"
+                       name="checkbox"
+                       value="value"
+                       (click)="appService.toggleTree(tree)"
+                       [checked]="appService.selectedTrees.includes(tree)">
+                <div class="state p-danger-o">
+                    <label>{{tree}}</label>
+                </div>
             </div>
         </div>
 
         <div class="column">
             <h3 (click)="appService.toggleAllWeeds()">Weeds</h3>
-            <div *ngFor="let weed of appService.weeds">
-                <label><input type="checkbox"
+            <div *ngFor="let weed of appService.weeds" class="checkbox pretty p-default p-curve p-thick">
+                <input type="checkbox"
                               name="checkbox"
                               value="value"
                               (click)="appService.toggleWeed(weed)"
-                              [checked]="appService.selectedWeeds.includes(weed)">{{weed}}</label>
+                              [checked]="appService.selectedWeeds.includes(weed)">
+                <div class="state p-danger-o">
+                    <label>{{weed}}</label>
+                </div>
             </div>
         </div>
 
         <div class="column">
             <h3 (click)="appService.toggleAllMold()">Mold</h3>
-            <div *ngFor="let mold of appService.molds">
-                <label><input type="checkbox"
+            <div *ngFor="let mold of appService.molds" class="checkbox pretty p-default p-curve p-thick">
+                <input type="checkbox"
                               name="checkbox"
                               value="value"
                               (click)="appService.toggleMold(mold)"
-                              [checked]="appService.selectedMolds.includes(mold)">{{mold}}</label>
+                              [checked]="appService.selectedMolds.includes(mold)">
+                <div class="state p-danger-o">
+                    <label>{{mold}}</label>
+                </div>
             </div>
         </div>
     </div>
