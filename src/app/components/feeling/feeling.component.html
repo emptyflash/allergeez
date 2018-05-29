@@ -1,23 +1,32 @@
 <div class="feeling">
-    <div class="message">By the way, how are you feeling today? We'll use your answer to improve our notifications!</div>
+    <div class="question">
+        <img class="mascot" height="59px" src="assets/icons/Logo.png">
+        <span class="message speech-bubble-left speech-bubble-orange">By the way, how are you feeling today? We'll use your answer to improve our notifications!</span>
+    </div>
 
     <div class="options">
         <!-- sad -->
         <div class="column">
-            <a (click)="addFeedback(Emotion.Sad)"><img src="assets/icons/sad_face.png"></a>
-            <div class="emotion-label">Under the weather...</div>
+            <a (click)="addFeedback(Emotion.Sad)">
+                <img height="50px" src="assets/icons/sad_face.png">
+                <div class="emotion-label speech-bubble-top speech-bubble-light-orange">Under the weather...</div>
+            </a>
         </div>
 
         <!-- neutral -->
         <div class="column">
-            <a (click)="addFeedback(Emotion.Neutral)"><img src="assets/icons/neutral_face.png"></a>
-            <div class="emotion-label">Okay</div>
+            <a (click)="addFeedback(Emotion.Neutral)">
+                <img height="50px" src="assets/icons/neutral_face.png">
+                <div class="emotion-label speech-bubble-top speech-bubble-super-light-orange">Okay</div>
+            </a>
         </div>
 
         <!-- happy -->
         <div class="column">
-            <a (click)="addFeedback(Emotion.Happy)"><img src="assets/icons/happy_face.png"></a>
-            <div class="emotion-label">Pretty good!</div>
+            <a (click)="addFeedback(Emotion.Happy)">
+                <img height="50px" src="assets/icons/happy_face.png">
+                <div class="emotion-label speech-bubble-top speech-bubble-turquoise">Pretty good!</div>
+            </a>
         </div>
     </div>
 </div>
